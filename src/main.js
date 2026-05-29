@@ -78,7 +78,7 @@ function setupSiteSearch() {
 
     results.classList.remove('hidden');
     if (!query) {
-      results.innerHTML = '<p class="font-bold text-ink">Type a place, activity, or trip length to search.</p><p class="mt-1">Try surf, volcano, safety, Suchitoto, or 5 days.</p>';
+      results.innerHTML = '<p class="font-bold text-ink">Type a bay, activity, or trip length to search.</p><p class="mt-1">Try snorkeling, boat tour, Tangolunda, safety, or 5 days.</p>';
       input.focus();
       return;
     }
@@ -164,9 +164,9 @@ renderList('[data-itinerary-grid]', itineraries, itineraryCard);
 renderList('[data-guide-grid]', guideCards, guideCard);
 renderList('[data-things-grid]', thingsToDo, thingCard);
 renderList('[data-faq-list]', [
-  { question: 'Is Top El Salvador only for surfers?', answer: 'No. Surf is important, but the site is planned around beaches, volcanoes, towns, food, culture, and practical trip planning.' },
-  { question: 'Will the site add Spanish content?', answer: 'The launch is English-first, with a clean structure that can support Spanish pages later.' },
-  { question: 'Will tours be bookable?', answer: 'The first version prepares the tour structure. Booking and affiliate integrations can be added after the guide experience is solid.' },
+  { question: 'Is Huatulco only for resort travelers?', answer: 'No. Tangolunda is the easiest resort bay, but the wider destination includes town beaches, boat-access national-park bays, La Crucecita, Copalita, seafood palapas, and west-coast day trips.' },
+  { question: 'Do I need a car in Huatulco?', answer: 'Not for the central bays. Taxis and boats work for most first trips. A car or driver becomes more useful for Copalita, San Agustín, Mazunte, Puerto Ángel, or a flexible coast day.' },
+  { question: 'Which bay should I choose first?', answer: 'Use Tangolunda for easy resort comfort, Santa Cruz for boat logistics, Chahué for a public town beach, El Maguey for seafood and calm-water potential, and the national-park bays for a more natural boat day.' },
 ], faqItem);
 
 setupMobileMenu();
