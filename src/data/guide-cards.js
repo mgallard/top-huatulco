@@ -1,0 +1,14 @@
+export const guideCards = [
+  { title: 'Is El Salvador Safe?', slug: 'is-el-salvador-safe', href: '/travel-guide/is-el-salvador-safe/', kicker: 'Practical guide', summary: 'Clear, current-feeling travel safety guidance without fearmongering or sugarcoating.' },
+  { title: 'Best Time to Visit', slug: 'best-time-to-visit', href: '/travel-guide/best-time-to-visit/', kicker: 'Weather', summary: 'Dry season, surf conditions, shoulder months, and when to expect greener landscapes.' },
+  { title: 'Getting Around', slug: 'getting-around', href: '/travel-guide/getting-around/', kicker: 'Transport', summary: 'Rental cars, drivers, shuttles, buses, and realistic travel times between regions.' },
+  { title: 'First-Time Visitor Guide', slug: 'first-time-visitors', href: '/travel-guide/first-time-visitors/', kicker: 'Start here', summary: 'Where to base, what to skip, safety habits, food, transport, and route planning for a first trip.' },
+  { title: 'Where to Stay', slug: 'where-to-stay', href: '/travel-guide/where-to-stay/', kicker: 'Trip bases', summary: 'Choose San Salvador, beach towns, Santa Ana, Suchitoto, Ruta de las Flores, or the east by trip style.' },
+  { title: 'Airport Arrival Guide', slug: 'airport-arrival', href: '/travel-guide/airport-arrival/', kicker: 'Arrival logistics', summary: 'Transfers, first-night bases, cash, SIM/eSIM, and how to avoid a rough first travel day.' },
+  { title: 'SIM Cards, eSIM and Internet', slug: 'sim-cards-internet', href: '/travel-guide/sim-cards-internet/', kicker: 'Connectivity', summary: 'eSIMs, local SIMs, Wi-Fi expectations, coverage habits, and backup navigation tips.' },
+  { title: 'Money, ATMs, Cards and Tipping', slug: 'money-atms-tipping', href: '/travel-guide/money-atms-tipping/', kicker: 'Money', summary: 'Cash, cards, ATMs, small bills, tipping habits, Bitcoin context, and payment friction to avoid.' },
+  { title: 'Driving and Car Rental', slug: 'driving-car-rental', href: '/travel-guide/driving-car-rental/', kicker: 'Transport', summary: 'Rental car, driver, and shuttle decisions with realistic notes on roads, parking, and night driving.' },
+  { title: 'Best Beach Towns Compared', slug: 'best-beach-towns-compared', href: '/travel-guide/best-beach-towns-compared/', kicker: 'Beaches', summary: 'Compare El Tunco, El Zonte, El Sunzal, La Libertad, Costa del Sol, El Cuco, Las Flores, and Los Cóbanos.' },
+  { title: 'Best Volcano Hikes Compared', slug: 'best-volcano-hikes-compared', href: '/travel-guide/best-volcano-hikes-compared/', kicker: 'Adventure', summary: 'Compare volcano-region experiences by effort, logistics, views, and first-timer suitability.' },
+  { title: 'Pupusas Guide', slug: 'pupusas-guide', href: '/food-culture/pupusas-guide/', kicker: 'Food culture', summary: 'What to order, how to eat them, common fillings, and where pupusas fit into the trip.' },
+];
