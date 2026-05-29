@@ -9,7 +9,9 @@
     "preview": "vite preview --host 0.0.0.0",
     "test": "python3 scripts/verify-static-site.py",
     "test:watch": "vitest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "audit:tourism": "python3 scripts/audit-tourism-standards.py",
+    "standards": "npm run audit:tourism"
   },
   "devDependencies": {
     "@eslint/js": "^9.27.0",
