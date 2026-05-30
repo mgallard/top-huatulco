@@ -80,6 +80,30 @@ This source map records the public sources used for the Huatulco bay and itinera
    - Used for: named town-food and market shortlist on `/food-culture/` and `/things-to-do/la-crucecita-market/`.
    - Copy rule: restaurants/market stalls are live businesses; always prompt visitors to verify current hours and recent signals.
 
+## Media source additions — second pass 2026-05-30
+
+1. Wikimedia Commons — Huatulco.jpg
+   - URL: https://commons.wikimedia.org/wiki/File:Huatulco.jpg
+   - Used for: `/destinations/chahue/` route media.
+   - License: CC BY-SA 4.0; creator Laura Elena Mendez M.
+   - Copy/media rule: file description identifies Playa Chahué / Bahía de Chahué; keep attribution visible and do not use for other bays.
+
+2. Wikimedia Commons — CacalutaPlaya.JPG
+   - URL: https://commons.wikimedia.org/wiki/File:CacalutaPlaya.JPG
+   - Used for: `/destinations/cacaluta/` route media.
+   - License: CC BY-SA 3.0; creator Danielllerandi.
+   - Copy/media rule: route-specific Cacaluta image; suitable for the national-park bay page.
+
+3. Approved first-pass image reuse
+   - URLs: existing approved review export `/home/osohermes/.hermes/projects/tophuatulco/top-huatulco-media-review-2026-05-30.json` plus visible `/image-credits/` rows.
+   - Used for: `/things-to-do/snorkeling/` (Riscalillo protected-bay context), `/things-to-do/boat-tours/` (Maguey Bay boat-day context), `/food-culture/` (La Crucecita town context), and `/itineraries/5-days-oaxaca-coast/` (San Agustín western-bay context).
+   - Copy/media rule: captions must identify context honestly; do not imply exact snorkeling visibility, guaranteed tour routing, or exact restaurant/market interiors.
+
+4. Unfilled media gaps kept explicit
+   - Routes: `/destinations/organo/`, `/destinations/chachacual/`, `/destinations/conejos/`, `/things-to-do/copalita-archaeology/`.
+   - Reason: no confident open-license route-specific image found in this pass.
+   - Rule: prefer owned photos or a new candidate-review board; do not fake these with generic Huatulco scenery before production DNS.
+
 ## Editorial rules
 
 - Keep bay advice decision-led: choose / avoid / pair-with.

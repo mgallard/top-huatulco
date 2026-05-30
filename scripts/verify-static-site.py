@@ -24,6 +24,15 @@ ENTITY_DEPTH_REQUIREMENTS = {
     '/things-to-do/copalita-archaeology/': ['data-entity-depth=\'copalita\'', 'Bocana del Río Copalita', 'official INAH listing', 'Casa Bocana', 'data-visible-sources=\'true\''],
     '/things-to-do/la-crucecita-market/': ['data-entity-depth=\'la-crucecita-market\'', 'Mercado 3 de Mayo', 'Iglesia de La Crucecita', 'Terra-Cotta', 'El Sabor de Oaxaca'],
 }
+MEDIA_REQUIREMENTS = {
+    '/destinations/chahue/': ['data-approved-route-media=\'true\'', 'Huatulco', '/images/photos/huatulco-huatulco-jpg-destinations-chahue.webp'],
+    '/destinations/cacaluta/': ['data-approved-route-media=\'true\'', 'CacalutaPlaya', '/images/photos/huatulco-cacalutaplaya-jpg-destinations-cacaluta.webp'],
+    '/things-to-do/snorkeling/': ['data-approved-route-media=\'true\'', 'Playa Riscalillo'],
+    '/things-to-do/boat-tours/': ['data-approved-route-media=\'true\'', 'Maguey Bay'],
+    '/food-culture/': ['data-approved-route-media=\'true\'', 'La Crucecita Oaxaca Mexico'],
+    '/itineraries/5-days-oaxaca-coast/': ['data-approved-route-media=\'true\'', 'Bahia San Agustin Huatulco camping'],
+    '/image-credits/': ['data-approved-image-credits=\'huatulco\'', 'Huatulco.jpg', 'CacalutaPlaya.JPG', 'La Crucecita Oaxaca Mexico.jpg'],
+}
 
 class Parser(HTMLParser):
     def __init__(self):
@@ -75,6 +84,9 @@ for p in ROOT.rglob('index.html'):
     for marker in ENTITY_DEPTH_REQUIREMENTS.get(rel, []):
         if marker not in txt:
             errors.append(f'{rel} missing entity-depth marker/content {marker}')
+    for marker in MEDIA_REQUIREMENTS.get(rel, []):
+        if marker not in txt:
+            errors.append(f'{rel} missing approved-media marker/content {marker}')
     for href in parser.hrefs:
         if href.startswith(('http://','https://','mailto:','#')): continue
         if href.startswith('/assets/') or href.startswith('/icons.svg'): continue
