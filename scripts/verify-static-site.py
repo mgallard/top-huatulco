@@ -33,6 +33,16 @@ MEDIA_REQUIREMENTS = {
     '/itineraries/5-days-oaxaca-coast/': ['data-approved-route-media=\'true\'', 'Bahia San Agustin Huatulco camping'],
     '/image-credits/': ['data-approved-image-credits=\'huatulco\'', 'Huatulco.jpg', 'CacalutaPlaya.JPG', 'La Crucecita Oaxaca Mexico.jpg'],
 }
+RESPONSIVE_REQUIREMENTS = {
+    '/destinations/': [
+        'data-destinations-comparison',
+        'data-mobile-table-cards',
+        'data-mobile-table-card',
+        'data-responsive-table=\'desktop-scroll\'',
+        'md:hidden',
+        'md:block',
+    ],
+}
 
 class Parser(HTMLParser):
     def __init__(self):
@@ -87,6 +97,11 @@ for p in ROOT.rglob('index.html'):
     for marker in MEDIA_REQUIREMENTS.get(rel, []):
         if marker not in txt:
             errors.append(f'{rel} missing approved-media marker/content {marker}')
+    for marker in RESPONSIVE_REQUIREMENTS.get(rel, []):
+        if marker not in txt:
+            errors.append(f'{rel} missing responsive marker/content {marker}')
+    if '<table' in txt and 'data-responsive-table' not in txt:
+        errors.append(f'{rel} has table without data-responsive-table wrapper')
     for href in parser.hrefs:
         if href.startswith(('http://','https://','mailto:','#')): continue
         if href.startswith('/assets/') or href.startswith('/icons.svg'): continue
