@@ -3,7 +3,7 @@
 Working folder: /home/osohermes/projects/top-huatulco
 Live preview alias: https://top-huatulco.vercel.app
 GitHub backup: https://github.com/mgallard/top-huatulco
-Latest commit: c1e49f4 Improve Huatulco priority guide depth
+Latest commit: d87d0a3 Add Huatulco second media pass
 Vercel project: top-huatulco under mogensgallardo-8987s-projects; preview/staging alias only, no TopHuatulco.com DNS connected.
 
 Current state:
@@ -11,7 +11,8 @@ Current state:
 - Completed bay/itinerary launch-depth pass: all 9 bay pages now include quick verdict, choose/avoid/pair-with, access, water/safety, services, crowd timing, orientation fallback, common mistakes, current-check source links, and FAQ structure. The 3-day and 5-day itineraries now have real day-by-day plans.
 - Completed first approved-media promotion: approved WebP assets are wired into homepage hero/mosaic plus Tangolunda, Santa Cruz, El Maguey, San Agustín, 3-day itinerary, and La Crucecita market; visible credits and `media-sources.json` are in place.
 - Completed priority entity-depth pass for practical pages: `/food-culture/`, `/tours/`, `/things-to-do/snorkeling/`, `/things-to-do/boat-tours/`, `/things-to-do/copalita-archaeology/`, and `/things-to-do/la-crucecita-market/` now include named restaurants, markets, operators, comparison logic, and live-check/source prompts.
-- Regression coverage now asserts entity-depth markers and named-place/operator content in `scripts/verify-static-site.py`. Source usage notes are recorded in `CONTENT_ENRICHMENT_SOURCES.md`. Deterministic generator: `scripts/entity_depth_pass.py`.
+- Completed second media sourcing/promotion pass: added source-checked open-license/local WebP route media to `/destinations/chahue/`, `/destinations/cacaluta/`, `/things-to-do/snorkeling/`, `/things-to-do/boat-tours/`, `/food-culture/`, and `/itineraries/5-days-oaxaca-coast/`; updated `public/images/photos/media-sources.json`, `/image-credits/`, `CONTENT_ENRICHMENT_SOURCES.md`, and `MEDIA_SECOND_PASS.md`.
+- Deterministic scripts now include `scripts/entity_depth_pass.py` and `scripts/apply_second_media_pass.py`. Regression coverage asserts entity-depth and approved-media markers in `scripts/verify-static-site.py`.
 
 Verification passed:
 - `git diff --check`
@@ -19,13 +20,14 @@ Verification passed:
 - `npm run lint`
 - `npm run audit:tourism`
 - `npm run build`
-- Remote marker checks passed on food/culture, tours, snorkeling, boat tours, Copalita archaeology, and La Crucecita market.
-- Browser visual QA passed for food/culture and tours; the tours operator comparison matrix rendered cleanly on desktop.
+- Asset manifest verification: all 16 local WebP derivatives exist with matching dimensions.
+- Remote marker checks passed on Chahué, Cacaluta, snorkeling, boat tours, food/culture, 5-day itinerary, and image credits.
+- Browser visual QA passed for Chahué, Cacaluta, and image credits. Food/culture image URL/dimensions verified live; visual model flagged a likely lazy/viewport false negative, but DOM reports complete image load at 1600x1200.
 - Vercel deployment aliased to https://top-huatulco.vercel.app.
 
 Known blockers / next actions:
 1. Production DNS remains gated. Do not connect TopHuatulco.com until Mogens explicitly approves after content/media review.
-2. Remaining media gaps: Chahué, Órgano, Cacaluta, Chachacual, Conejos, 5-day itinerary, snorkeling, Copalita, food/culture, boat tours, and several practical pages still need better approved/owned route-specific imagery.
+2. Remaining hard media gaps: `/destinations/organo/`, `/destinations/chachacual/`, `/destinations/conejos/`, and `/things-to-do/copalita-archaeology/` still need owned photos or a new reviewed candidate board. These were intentionally not filled with generic scenery.
 3. Kanban DB currently errors with `no such column: claim_lock`; use COMMAND_CENTER.md and this status file as fallback until Kanban is repaired.
 
 Resume command:
