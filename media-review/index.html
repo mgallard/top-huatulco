@@ -8,7 +8,7 @@
   <link rel='canonical' href='https://tophuatulco.com/media-review/'>
   <title>Top Huatulco Media Review Board</title>
   <style>
-    :root { color-scheme: light; --ink:#17313A; --muted:#5B727A; --line:#D9E9ED; --bg:#F5FBFC; --primary:#2C9AB7; --sand:#FFF7E8; }
+    :root { color-scheme: light; --ink:#17313A; --muted:#5B727A; --line:#D9E9ED; --bg:#F5FBFC; --primary:#2C9AB7; --sand:#FFF7E8; --ok:#237A57; --maybe:#B27616; --bad:#B64242; }
     body { margin:0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color:var(--ink); background:var(--bg); }
     header { padding:3rem clamp(1rem,4vw,4rem); background:linear-gradient(135deg,#E7F7F9,#FFF7E8); border-bottom:1px solid var(--line); }
     main { padding:2rem clamp(1rem,4vw,4rem) 4rem; }
@@ -16,11 +16,19 @@
     h2 { margin:3rem 0 1rem; font-size:1.35rem; }
     h2 span { color:var(--muted); font-size:.9rem; font-weight:600; }
     p { line-height:1.55; }
+    button, textarea { font:inherit; }
     .summary { display:grid; gap:1rem; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); margin-top:1.5rem; max-width:900px; }
     .summary div { background:white; border:1px solid var(--line); border-radius:1.25rem; padding:1rem; box-shadow:0 12px 30px rgba(23,49,58,.06); }
     .summary strong { display:block; font-size:1.7rem; }
+    .toolbar { display:flex; flex-wrap:wrap; gap:.75rem; align-items:center; margin-top:1.25rem; }
+    .toolbar button { border:0; border-radius:999px; padding:.75rem 1rem; background:var(--ink); color:white; font-weight:900; cursor:pointer; }
+    .toolbar button.secondary { background:white; color:var(--ink); border:1px solid var(--line); }
+    .toolbar output { font-weight:800; color:var(--muted); }
     .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:1rem; }
-    .candidate-card { background:white; border:1px solid var(--line); border-radius:1.25rem; overflow:hidden; box-shadow:0 12px 30px rgba(23,49,58,.06); display:flex; flex-direction:column; }
+    .candidate-card { background:white; border:2px solid var(--line); border-radius:1.25rem; overflow:hidden; box-shadow:0 12px 30px rgba(23,49,58,.06); display:flex; flex-direction:column; }
+    .candidate-card[data-decision='approved'] { border-color:var(--ok); box-shadow:0 14px 34px rgba(35,122,87,.16); }
+    .candidate-card[data-decision='maybe'] { border-color:var(--maybe); box-shadow:0 14px 34px rgba(178,118,22,.16); }
+    .candidate-card[data-decision='rejected'] { border-color:var(--bad); opacity:.72; }
     .thumb { aspect-ratio:4/3; background:#d9e9ed; display:grid; place-items:center; color:var(--muted); }
     .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
     .card-body { padding:1rem; display:grid; gap:.45rem; }
@@ -29,8 +37,16 @@
     .badge { color:var(--primary); text-transform:uppercase; letter-spacing:.09em; font-size:.72rem; font-weight:800; }
     .notes { color:var(--muted); font-size:.88rem; }
     .links { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.5rem; }
-    .review-row { display:flex; flex-wrap:wrap; gap:.45rem; margin-top:.35rem; font-size:.82rem; font-weight:800; color:var(--ink); }
-    .review-row span { border:1px solid var(--line); border-radius:999px; padding:.35rem .55rem; background:#fff; }
+    .review-row { display:flex; flex-wrap:wrap; gap:.45rem; margin:.35rem 0 0; padding:0; border:0; font-size:.82rem; font-weight:900; color:var(--ink); }
+    .review-row legend { width:100%; font-size:.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; }
+    .review-row button { border:1px solid var(--line); border-radius:999px; padding:.5rem .7rem; background:#fff; cursor:pointer; font-weight:900; }
+    .review-row button[aria-pressed='true'] { color:white; }
+    .review-row button[data-choice='approved'][aria-pressed='true'] { background:var(--ok); border-color:var(--ok); }
+    .review-row button[data-choice='maybe'][aria-pressed='true'] { background:var(--maybe); border-color:var(--maybe); }
+    .review-row button[data-choice='rejected'][aria-pressed='true'] { background:var(--bad); border-color:var(--bad); }
+    .note-label { display:grid; gap:.25rem; color:var(--muted); font-size:.8rem; font-weight:800; }
+    textarea { width:100%; box-sizing:border-box; border:1px solid var(--line); border-radius:.85rem; padding:.6rem; color:var(--ink); resize:vertical; }
+    .saved-state { color:var(--muted); font-size:.82rem; font-weight:800; }
     a { color:var(--primary); font-weight:800; }
     .links a { border:1px solid var(--line); border-radius:999px; padding:.5rem .75rem; text-decoration:none; background:var(--sand); }
     .warning { max-width:900px; padding:1rem; margin-top:1.5rem; border-radius:1rem; background:#fff; border:1px solid #f2c97d; }
@@ -40,7 +56,7 @@
 <header>
   <p class='badge'>Review-only · noindex</p>
   <h1>Top Huatulco media candidates</h1>
-  <p>This board is for selecting real, license-safe Huatulco visuals before wiring them into public pages. Candidates are not approved yet.</p>
+  <p>This board is for selecting real, license-safe Huatulco visuals before wiring them into public pages. Your decisions are saved in this browser and can be exported as JSON for implementation.</p>
   <div class='summary'>
     <div><strong>24</strong> candidates</div>
     <div><strong>20</strong> local previews</div>
@@ -48,10 +64,16 @@
     <div><strong>24 candidate</strong> review status</div>
   </div>
   <div class='warning'><strong>Important:</strong> approve only after visual place-match and license review. Do not use images with uncertain subject, watermarks, people/privacy concerns, or source restrictions.</div>
+  <div class='toolbar' aria-label='Review export tools'>
+    <button type='button' id='exportReview'>Download review JSON</button>
+    <button type='button' id='copyReview' class='secondary'>Copy review JSON</button>
+    <button type='button' id='clearReview' class='secondary'>Clear local decisions</button>
+    <output id='reviewSummary'>0 reviewed</output>
+  </div>
 </header>
 <main>
 <section><h2>Homepage / root <span>5 candidates</span></h2><div class='grid'>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-001-001-candidate-bah-a-tangolunda-jpg-jpg' data-route='/' data-title='Bahía Tangolunda.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='/images/visual-candidates/001-candidate-bah-a-tangolunda-jpg.jpg' alt='Huatulco coastline and protected bays in Oaxaca' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC BY-SA 4.0</p>
@@ -59,16 +81,25 @@
     <p><strong>Target:</strong> Top Huatulco homepage</p>
     <p><strong>Creator:</strong> Gzzz</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for Bahía Tangolunda.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3ABah%C3%ADa_Tangolunda.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/4/46/Bah%C3%ADa_Tangolunda.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-002-002-candidate-maguey-bay-jpg-jpg' data-route='/' data-title='Maguey Bay.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='/images/visual-candidates/002-candidate-maguey-bay-jpg.jpg' alt='Huatulco coastline and protected bays in Oaxaca' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC BY-SA 4.0</p>
@@ -76,16 +107,25 @@
     <p><strong>Target:</strong> Top Huatulco homepage</p>
     <p><strong>Creator:</strong> Wavehunter</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for Maguey Bay.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3AMaguey_Bay.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/c/c3/Maguey_Bay.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-003-003-candidate-guatulco-santa-cruz-and-tangola-tangola-cropped-from-admiralty-chart-no-439-port-jpg' data-route='/' data-title='Guatulco Santa Cruz and Tangola Tangola Cropped from Admiralty Chart No 439 Ports and Anchorages on the West Coast of Central America, Published 1883.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='/images/visual-candidates/003-candidate-guatulco-santa-cruz-and-tangola-tangola-cropped-from-admiralty-chart-no-439-port.jpg' alt='Huatulco coastline and protected bays in Oaxaca' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · Public domain</p>
@@ -93,16 +133,25 @@
     <p><strong>Target:</strong> Top Huatulco homepage</p>
     <p><strong>Creator:</strong> United Kingdom Hydrographic Office</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for Guatulco Santa Cruz and Tangola Tangola Cropped from Admiralty Chart No 439 Ports and Anchorages on the West Coast of Central America, Published 1883.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3AGuatulco_Santa_Cruz_and_Tangola_Tangola_Cropped_from_Admiralty_Chart_No_439_Ports_and_Anchorages_on_the_West_Coast_of_Central_America%2C_Published_1883.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/5/5d/Guatulco_Santa_Cruz_and_Tangola_Tangola_Cropped_from_Admiralty_Chart_No_439_Ports_and_Anchorages_on_the_West_Coast_of_Central_America%2C_Published_1883.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-004-004-candidate-playa-la-cruz-bah-as-de-huatulco-jpg-jpg' data-route='/' data-title='Playa La Cruz, Bahías de Huatulco.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='/images/visual-candidates/004-candidate-playa-la-cruz-bah-as-de-huatulco-jpg.jpg' alt='Huatulco coastline and protected bays in Oaxaca' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC BY-SA 4.0</p>
@@ -110,16 +159,25 @@
     <p><strong>Target:</strong> Top Huatulco homepage</p>
     <p><strong>Creator:</strong> ProtoplasmaKid</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for Playa La Cruz, Bahías de Huatulco.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3APlaya_La_Cruz%2C_Bah%C3%ADas_de_Huatulco.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/c/c8/Playa_La_Cruz%2C_Bah%C3%ADas_de_Huatulco.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-005-005-candidate-playa-riscalillo-bah-as-de-huatulco-1-jpg-jpg' data-route='/' data-title='Playa Riscalillo, Bahías de Huatulco 1.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='/images/visual-candidates/005-candidate-playa-riscalillo-bah-as-de-huatulco-1-jpg.jpg' alt='Huatulco coastline and protected bays in Oaxaca' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC BY-SA 4.0</p>
@@ -127,16 +185,25 @@
     <p><strong>Target:</strong> Top Huatulco homepage</p>
     <p><strong>Creator:</strong> ProtoplasmaKid</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for Playa Riscalillo, Bahías de Huatulco 1.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3APlaya_Riscalillo%2C_Bah%C3%ADas_de_Huatulco_1.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/d/df/Playa_Riscalillo%2C_Bah%C3%ADas_de_Huatulco_1.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article></div></section><section><h2>/destinations/el-maguey/ <span>1 candidates</span></h2><div class='grid'>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-011-011-destinations-el-maguey-playa-el-maguey-panoramio-jpg-jpg' data-route='/destinations/el-maguey/' data-title='Playa el Maguey - panoramio.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='/images/visual-candidates/011-destinations-el-maguey-playa-el-maguey-panoramio-jpg.jpg' alt='El Maguey beach in Huatulco' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC BY 3.0</p>
@@ -144,16 +211,25 @@
     <p><strong>Target:</strong> El Maguey Bay</p>
     <p><strong>Creator:</strong> ArCaRa</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for Playa el Maguey - panoramio.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3APlaya_el_Maguey_-_panoramio.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/f/f8/Playa_el_Maguey_-_panoramio.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article></div></section><section><h2>/destinations/san-agustin/ <span>2 candidates</span></h2><div class='grid'>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-012-012-destinations-san-agustin-bahia-san-agustin-huatulco-camping-webp-webp' data-route='/destinations/san-agustin/' data-title='Bahia San Agustin Huatulco camping.webp' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='/images/visual-candidates/012-destinations-san-agustin-bahia-san-agustin-huatulco-camping-webp.webp' alt='San Agustín Bay in Huatulco' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC BY-SA 4.0</p>
@@ -161,16 +237,25 @@
     <p><strong>Target:</strong> San Agustín Bay</p>
     <p><strong>Creator:</strong> 1palm4420</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for Bahia San Agustin Huatulco camping.webp'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3ABahia_San_Agustin_Huatulco_camping.webp' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/7/74/Bahia_San_Agustin_Huatulco_camping.webp' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-013-013-destinations-san-agustin-ni-os-jugando-en-una-playa-oaxaque-a-jpg-jpg' data-route='/destinations/san-agustin/' data-title='Niños jugando en una playa Oaxaqueña.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='/images/visual-candidates/013-destinations-san-agustin-ni-os-jugando-en-una-playa-oaxaque-a-jpg.jpg' alt='San Agustín Bay in Huatulco' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC BY-SA 4.0</p>
@@ -178,16 +263,25 @@
     <p><strong>Target:</strong> San Agustín Bay</p>
     <p><strong>Creator:</strong> Yuratan</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for Niños jugando en una playa Oaxaqueña.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3ANi%C3%B1os_jugando_en_una_playa_Oaxaque%C3%B1a.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/5/5a/Ni%C3%B1os_jugando_en_una_playa_Oaxaque%C3%B1a.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article></div></section><section><h2>/destinations/santa-cruz/ <span>1 candidates</span></h2><div class='grid'>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-010-010-destinations-santa-cruz-bah-a-santa-cruz-en-huatulco-jpg-jpg' data-route='/destinations/santa-cruz/' data-title='Bahía Santa Cruz en Huatulco.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='/images/visual-candidates/010-destinations-santa-cruz-bah-a-santa-cruz-en-huatulco-jpg.jpg' alt='Santa Cruz Bay and harbor in Huatulco' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC BY-SA 4.0</p>
@@ -195,16 +289,25 @@
     <p><strong>Target:</strong> Santa Cruz Bay</p>
     <p><strong>Creator:</strong> Arturo Alcalá Hernández</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for Bahía Santa Cruz en Huatulco.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3ABah%C3%ADa_Santa_Cruz_en_Huatulco.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/e/e4/Bah%C3%ADa_Santa_Cruz_en_Huatulco.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article></div></section><section><h2>/destinations/tangolunda/ <span>4 candidates</span></h2><div class='grid'>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-006-006-destinations-tangolunda-bahia-tangolunda-en-huatulco-oax-panoramio-jpg-jpg' data-route='/destinations/tangolunda/' data-title='BAHIA TANGOLUNDA EN HUATULCO, OAX. - panoramio.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='/images/visual-candidates/006-destinations-tangolunda-bahia-tangolunda-en-huatulco-oax-panoramio-jpg.jpg' alt='Tangolunda Bay in Huatulco' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC BY-SA 3.0</p>
@@ -212,16 +315,25 @@
     <p><strong>Target:</strong> Tangolunda Bay</p>
     <p><strong>Creator:</strong> MIGUEL GUZZI</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for BAHIA TANGOLUNDA EN HUATULCO, OAX. - panoramio.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3ABAHIA_TANGOLUNDA_EN_HUATULCO%2C_OAX._-_panoramio.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/c/c3/BAHIA_TANGOLUNDA_EN_HUATULCO%2C_OAX._-_panoramio.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-007-007-destinations-tangolunda-bah-a-tangolunda-jpg-jpg' data-route='/destinations/tangolunda/' data-title='Bahía Tangolunda.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='/images/visual-candidates/007-destinations-tangolunda-bah-a-tangolunda-jpg.jpg' alt='Tangolunda Bay in Huatulco' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC BY-SA 4.0</p>
@@ -229,16 +341,25 @@
     <p><strong>Target:</strong> Tangolunda Bay</p>
     <p><strong>Creator:</strong> Gzzz</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for Bahía Tangolunda.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3ABah%C3%ADa_Tangolunda.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/4/46/Bah%C3%ADa_Tangolunda.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-008-008-destinations-tangolunda-bahia-de-tangolunda-huatulco-jpg-jpg' data-route='/destinations/tangolunda/' data-title='Bahia de Tangolunda Huatulco.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='/images/visual-candidates/008-destinations-tangolunda-bahia-de-tangolunda-huatulco-jpg.jpg' alt='Tangolunda Bay in Huatulco' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC BY-SA 4.0</p>
@@ -246,16 +367,25 @@
     <p><strong>Target:</strong> Tangolunda Bay</p>
     <p><strong>Creator:</strong> Kognos</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for Bahia de Tangolunda Huatulco.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3ABahia_de_Tangolunda_Huatulco.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/8/8d/Bahia_de_Tangolunda_Huatulco.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-009-009-destinations-tangolunda-iguana-imperturbable-bah-a-de-tangolunda-huatulco-oaxaca-jpg-jpg' data-route='/destinations/tangolunda/' data-title='Iguana imperturbable, Bahía de Tangolunda, Huatulco, Oaxaca.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='/images/visual-candidates/009-destinations-tangolunda-iguana-imperturbable-bah-a-de-tangolunda-huatulco-oaxaca-jpg.jpg' alt='Tangolunda Bay in Huatulco' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC BY-SA 4.0</p>
@@ -263,16 +393,25 @@
     <p><strong>Target:</strong> Tangolunda Bay</p>
     <p><strong>Creator:</strong> Suwanosejima</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for Iguana imperturbable, Bahía de Tangolunda, Huatulco, Oaxaca.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3AIguana_imperturbable%2C_Bah%C3%ADa_de_Tangolunda%2C_Huatulco%2C_Oaxaca.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/9/94/Iguana_imperturbable%2C_Bah%C3%ADa_de_Tangolunda%2C_Huatulco%2C_Oaxaca.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article></div></section><section><h2>/itineraries/3-days-huatulco/ <span>5 candidates</span></h2><div class='grid'>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-014-014-itineraries-3-days-huatulco-bah-a-santa-cruz-en-huatulco-jpg-jpg' data-route='/itineraries/3-days-huatulco/' data-title='Bahía Santa Cruz en Huatulco.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='/images/visual-candidates/014-itineraries-3-days-huatulco-bah-a-santa-cruz-en-huatulco-jpg.jpg' alt='Huatulco bay and town trip planning' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC BY-SA 4.0</p>
@@ -280,16 +419,25 @@
     <p><strong>Target:</strong> 3 Days in Huatulco</p>
     <p><strong>Creator:</strong> Arturo Alcalá Hernández</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for Bahía Santa Cruz en Huatulco.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3ABah%C3%ADa_Santa_Cruz_en_Huatulco.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/e/e4/Bah%C3%ADa_Santa_Cruz_en_Huatulco.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-015-015-itineraries-3-days-huatulco-monumental-letters-in-huatulco-jpg-jpg' data-route='/itineraries/3-days-huatulco/' data-title='Monumental Letters in Huatulco.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='/images/visual-candidates/015-itineraries-3-days-huatulco-monumental-letters-in-huatulco-jpg.jpg' alt='Huatulco bay and town trip planning' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC BY-SA 4.0</p>
@@ -297,16 +445,25 @@
     <p><strong>Target:</strong> 3 Days in Huatulco</p>
     <p><strong>Creator:</strong> Gzzz</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for Monumental Letters in Huatulco.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3AMonumental_Letters_in_Huatulco.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/4/46/Monumental_Letters_in_Huatulco.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-016-016-itineraries-3-days-huatulco-la-crucecita-oaxaca-mexico-jpg-jpg' data-route='/itineraries/3-days-huatulco/' data-title='La Crucecita Oaxaca Mexico.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='/images/visual-candidates/016-itineraries-3-days-huatulco-la-crucecita-oaxaca-mexico-jpg.jpg' alt='Huatulco bay and town trip planning' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC BY-SA 4.0</p>
@@ -314,16 +471,25 @@
     <p><strong>Target:</strong> 3 Days in Huatulco</p>
     <p><strong>Creator:</strong> Wavehunter</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for La Crucecita Oaxaca Mexico.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3ALa_Crucecita_Oaxaca_Mexico.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/1/1e/La_Crucecita_Oaxaca_Mexico.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-017-017-itineraries-3-days-huatulco-iglesia-de-la-crucecita-02-jpg-jpg' data-route='/itineraries/3-days-huatulco/' data-title='Iglesia de la Crucecita 02.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='/images/visual-candidates/017-itineraries-3-days-huatulco-iglesia-de-la-crucecita-02-jpg.jpg' alt='Huatulco bay and town trip planning' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC0</p>
@@ -331,16 +497,25 @@
     <p><strong>Target:</strong> 3 Days in Huatulco</p>
     <p><strong>Creator:</strong> Daniel Lobo</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for Iglesia de la Crucecita 02.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3AIglesia_de_la_Crucecita_02.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/b/bb/Iglesia_de_la_Crucecita_02.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-018-Iglesia-de-la-Crucecita-08-jpg' data-route='/itineraries/3-days-huatulco/' data-title='Iglesia de la Crucecita 08.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Iglesia_de_la_Crucecita_08.jpg/960px-Iglesia_de_la_Crucecita_08.jpg' alt='Huatulco bay and town trip planning' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC0</p>
@@ -348,16 +523,25 @@
     <p><strong>Target:</strong> 3 Days in Huatulco</p>
     <p><strong>Creator:</strong> Daniel Lobo</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for Iglesia de la Crucecita 08.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3AIglesia_de_la_Crucecita_08.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/2/25/Iglesia_de_la_Crucecita_08.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article></div></section><section><h2>/things-to-do/boat-tours/ <span>1 candidates</span></h2><div class='grid'>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-019-019-things-to-do-boat-tours-bah-a-santa-cruz-en-huatulco-jpg-jpg' data-route='/things-to-do/boat-tours/' data-title='Bahía Santa Cruz en Huatulco.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='/images/visual-candidates/019-things-to-do-boat-tours-bah-a-santa-cruz-en-huatulco-jpg.jpg' alt='Boat tour in Huatulco bays' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC BY-SA 4.0</p>
@@ -365,16 +549,25 @@
     <p><strong>Target:</strong> Huatulco boat tours</p>
     <p><strong>Creator:</strong> Arturo Alcalá Hernández</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for Bahía Santa Cruz en Huatulco.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3ABah%C3%ADa_Santa_Cruz_en_Huatulco.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/e/e4/Bah%C3%ADa_Santa_Cruz_en_Huatulco.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article></div></section><section><h2>/things-to-do/la-crucecita-market/ <span>5 candidates</span></h2><div class='grid'>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-020-020-things-to-do-la-crucecita-market-monumental-letters-in-huatulco-jpg-jpg' data-route='/things-to-do/la-crucecita-market/' data-title='Monumental Letters in Huatulco.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='/images/visual-candidates/020-things-to-do-la-crucecita-market-monumental-letters-in-huatulco-jpg.jpg' alt='La Crucecita in Huatulco' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC BY-SA 4.0</p>
@@ -382,16 +575,25 @@
     <p><strong>Target:</strong> La Crucecita Market</p>
     <p><strong>Creator:</strong> Gzzz</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for Monumental Letters in Huatulco.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3AMonumental_Letters_in_Huatulco.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/4/46/Monumental_Letters_in_Huatulco.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-021-La-Crucecita-Oaxaca-Mexico-jpg' data-route='/things-to-do/la-crucecita-market/' data-title='La Crucecita Oaxaca Mexico.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/La_Crucecita_Oaxaca_Mexico.jpg/960px-La_Crucecita_Oaxaca_Mexico.jpg' alt='La Crucecita in Huatulco' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC BY-SA 4.0</p>
@@ -399,16 +601,25 @@
     <p><strong>Target:</strong> La Crucecita Market</p>
     <p><strong>Creator:</strong> Wavehunter</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for La Crucecita Oaxaca Mexico.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3ALa_Crucecita_Oaxaca_Mexico.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/1/1e/La_Crucecita_Oaxaca_Mexico.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-022-022-things-to-do-la-crucecita-market-iglesia-de-la-crucecita-02-jpg-jpg' data-route='/things-to-do/la-crucecita-market/' data-title='Iglesia de la Crucecita 02.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='/images/visual-candidates/022-things-to-do-la-crucecita-market-iglesia-de-la-crucecita-02-jpg.jpg' alt='La Crucecita in Huatulco' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC0</p>
@@ -416,16 +627,25 @@
     <p><strong>Target:</strong> La Crucecita Market</p>
     <p><strong>Creator:</strong> Daniel Lobo</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for Iglesia de la Crucecita 02.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3AIglesia_de_la_Crucecita_02.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/b/bb/Iglesia_de_la_Crucecita_02.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-023-Iglesia-de-la-Crucecita-08-jpg' data-route='/things-to-do/la-crucecita-market/' data-title='Iglesia de la Crucecita 08.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Iglesia_de_la_Crucecita_08.jpg/960px-Iglesia_de_la_Crucecita_08.jpg' alt='La Crucecita in Huatulco' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC0</p>
@@ -433,16 +653,25 @@
     <p><strong>Target:</strong> La Crucecita Market</p>
     <p><strong>Creator:</strong> Daniel Lobo</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for Iglesia de la Crucecita 08.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3AIglesia_de_la_Crucecita_08.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/2/25/Iglesia_de_la_Crucecita_08.jpg' target='_blank' rel='noopener'>Original file</a>
     </div>
   </div>
 </article>
-<article class='candidate-card' data-provider='wikimedia_commons' data-review-status='candidate'>
+<article class='candidate-card' data-review-card data-id='candidate-024-Santa-Mar%C3%ADa-Huatulco-3-jpg' data-route='/things-to-do/la-crucecita-market/' data-title='Santa María Huatulco 3.jpg' data-provider='wikimedia_commons' data-review-status='candidate'>
   <div class='thumb'><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Santa_Mar%C3%ADa_Huatulco_3.jpg/960px-Santa_Mar%C3%ADa_Huatulco_3.jpg' alt='La Crucecita in Huatulco' loading='eager'></div>
   <div class='card-body'>
     <p class='badge'>wikimedia_commons · CC BY-SA 4.0</p>
@@ -450,9 +679,18 @@
     <p><strong>Target:</strong> La Crucecita Market</p>
     <p><strong>Creator:</strong> Own work</p>
     <p><strong>Use:</strong> commercial True; derivatives True</p>
-    <p><strong>Review:</strong> candidate — allowed open license</p>
+    <p><strong>Initial review:</strong> candidate — allowed open license</p>
     <p class='notes'>Commons candidate; verify place match visually before production use.</p>
-    <div class='review-row' aria-label='Manual review choices'><span>□ Approve</span><span>□ Maybe</span><span>□ Reject</span></div>
+    <fieldset class='review-row' aria-label='Manual review choices for Santa María Huatulco 3.jpg'>
+      <legend>Decision</legend>
+      <button type='button' data-choice='approved'>Approve</button>
+      <button type='button' data-choice='maybe'>Maybe</button>
+      <button type='button' data-choice='rejected'>Reject</button>
+    </fieldset>
+    <label class='note-label'>Review note
+      <textarea data-note rows='3' aria-label='Optional note: place-match concerns, best page use, crop notes'></textarea>
+    </label>
+    <p class='saved-state' data-saved-state>Not reviewed yet</p>
     <div class='links'>
       <a href='https://commons.wikimedia.org/wiki/File%3ASanta_Mar%C3%ADa_Huatulco_3.jpg' target='_blank' rel='noopener'>Source page</a>
       <a href='https://upload.wikimedia.org/wikipedia/commons/2/2f/Santa_Mar%C3%ADa_Huatulco_3.jpg' target='_blank' rel='noopener'>Original file</a>
@@ -460,5 +698,120 @@
   </div>
 </article></div></section>
 </main>
+<script id='candidateData' type='application/json'>[{"id": "candidate-001-001-candidate-bah-a-tangolunda-jpg-jpg", "route": "/", "title": "Bahía Tangolunda.jpg", "targetTitle": "Top Huatulco homepage", "landingPage": "https://commons.wikimedia.org/wiki/File%3ABah%C3%ADa_Tangolunda.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/4/46/Bah%C3%ADa_Tangolunda.jpg", "localPreview": "/images/visual-candidates/001-candidate-bah-a-tangolunda-jpg.jpg", "provider": "wikimedia_commons", "license": "CC BY-SA 4.0", "creator": "Gzzz"}, {"id": "candidate-002-002-candidate-maguey-bay-jpg-jpg", "route": "/", "title": "Maguey Bay.jpg", "targetTitle": "Top Huatulco homepage", "landingPage": "https://commons.wikimedia.org/wiki/File%3AMaguey_Bay.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Maguey_Bay.jpg", "localPreview": "/images/visual-candidates/002-candidate-maguey-bay-jpg.jpg", "provider": "wikimedia_commons", "license": "CC BY-SA 4.0", "creator": "Wavehunter"}, {"id": "candidate-003-003-candidate-guatulco-santa-cruz-and-tangola-tangola-cropped-from-admiralty-chart-no-439-port-jpg", "route": "/", "title": "Guatulco Santa Cruz and Tangola Tangola Cropped from Admiralty Chart No 439 Ports and Anchorages on the West Coast of Central America, Published 1883.jpg", "targetTitle": "Top Huatulco homepage", "landingPage": "https://commons.wikimedia.org/wiki/File%3AGuatulco_Santa_Cruz_and_Tangola_Tangola_Cropped_from_Admiralty_Chart_No_439_Ports_and_Anchorages_on_the_West_Coast_of_Central_America%2C_Published_1883.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5d/Guatulco_Santa_Cruz_and_Tangola_Tangola_Cropped_from_Admiralty_Chart_No_439_Ports_and_Anchorages_on_the_West_Coast_of_Central_America%2C_Published_1883.jpg", "localPreview": "/images/visual-candidates/003-candidate-guatulco-santa-cruz-and-tangola-tangola-cropped-from-admiralty-chart-no-439-port.jpg", "provider": "wikimedia_commons", "license": "Public domain", "creator": "United Kingdom Hydrographic Office"}, {"id": "candidate-004-004-candidate-playa-la-cruz-bah-as-de-huatulco-jpg-jpg", "route": "/", "title": "Playa La Cruz, Bahías de Huatulco.jpg", "targetTitle": "Top Huatulco homepage", "landingPage": "https://commons.wikimedia.org/wiki/File%3APlaya_La_Cruz%2C_Bah%C3%ADas_de_Huatulco.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Playa_La_Cruz%2C_Bah%C3%ADas_de_Huatulco.jpg", "localPreview": "/images/visual-candidates/004-candidate-playa-la-cruz-bah-as-de-huatulco-jpg.jpg", "provider": "wikimedia_commons", "license": "CC BY-SA 4.0", "creator": "ProtoplasmaKid"}, {"id": "candidate-005-005-candidate-playa-riscalillo-bah-as-de-huatulco-1-jpg-jpg", "route": "/", "title": "Playa Riscalillo, Bahías de Huatulco 1.jpg", "targetTitle": "Top Huatulco homepage", "landingPage": "https://commons.wikimedia.org/wiki/File%3APlaya_Riscalillo%2C_Bah%C3%ADas_de_Huatulco_1.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/d/df/Playa_Riscalillo%2C_Bah%C3%ADas_de_Huatulco_1.jpg", "localPreview": "/images/visual-candidates/005-candidate-playa-riscalillo-bah-as-de-huatulco-1-jpg.jpg", "provider": "wikimedia_commons", "license": "CC BY-SA 4.0", "creator": "ProtoplasmaKid"}, {"id": "candidate-006-006-destinations-tangolunda-bahia-tangolunda-en-huatulco-oax-panoramio-jpg-jpg", "route": "/destinations/tangolunda/", "title": "BAHIA TANGOLUNDA EN HUATULCO, OAX. - panoramio.jpg", "targetTitle": "Tangolunda Bay", "landingPage": "https://commons.wikimedia.org/wiki/File%3ABAHIA_TANGOLUNDA_EN_HUATULCO%2C_OAX._-_panoramio.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c3/BAHIA_TANGOLUNDA_EN_HUATULCO%2C_OAX._-_panoramio.jpg", "localPreview": "/images/visual-candidates/006-destinations-tangolunda-bahia-tangolunda-en-huatulco-oax-panoramio-jpg.jpg", "provider": "wikimedia_commons", "license": "CC BY-SA 3.0", "creator": "MIGUEL GUZZI"}, {"id": "candidate-007-007-destinations-tangolunda-bah-a-tangolunda-jpg-jpg", "route": "/destinations/tangolunda/", "title": "Bahía Tangolunda.jpg", "targetTitle": "Tangolunda Bay", "landingPage": "https://commons.wikimedia.org/wiki/File%3ABah%C3%ADa_Tangolunda.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/4/46/Bah%C3%ADa_Tangolunda.jpg", "localPreview": "/images/visual-candidates/007-destinations-tangolunda-bah-a-tangolunda-jpg.jpg", "provider": "wikimedia_commons", "license": "CC BY-SA 4.0", "creator": "Gzzz"}, {"id": "candidate-008-008-destinations-tangolunda-bahia-de-tangolunda-huatulco-jpg-jpg", "route": "/destinations/tangolunda/", "title": "Bahia de Tangolunda Huatulco.jpg", "targetTitle": "Tangolunda Bay", "landingPage": "https://commons.wikimedia.org/wiki/File%3ABahia_de_Tangolunda_Huatulco.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Bahia_de_Tangolunda_Huatulco.jpg", "localPreview": "/images/visual-candidates/008-destinations-tangolunda-bahia-de-tangolunda-huatulco-jpg.jpg", "provider": "wikimedia_commons", "license": "CC BY-SA 4.0", "creator": "Kognos"}, {"id": "candidate-009-009-destinations-tangolunda-iguana-imperturbable-bah-a-de-tangolunda-huatulco-oaxaca-jpg-jpg", "route": "/destinations/tangolunda/", "title": "Iguana imperturbable, Bahía de Tangolunda, Huatulco, Oaxaca.jpg", "targetTitle": "Tangolunda Bay", "landingPage": "https://commons.wikimedia.org/wiki/File%3AIguana_imperturbable%2C_Bah%C3%ADa_de_Tangolunda%2C_Huatulco%2C_Oaxaca.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/9/94/Iguana_imperturbable%2C_Bah%C3%ADa_de_Tangolunda%2C_Huatulco%2C_Oaxaca.jpg", "localPreview": "/images/visual-candidates/009-destinations-tangolunda-iguana-imperturbable-bah-a-de-tangolunda-huatulco-oaxaca-jpg.jpg", "provider": "wikimedia_commons", "license": "CC BY-SA 4.0", "creator": "Suwanosejima"}, {"id": "candidate-010-010-destinations-santa-cruz-bah-a-santa-cruz-en-huatulco-jpg-jpg", "route": "/destinations/santa-cruz/", "title": "Bahía Santa Cruz en Huatulco.jpg", "targetTitle": "Santa Cruz Bay", "landingPage": "https://commons.wikimedia.org/wiki/File%3ABah%C3%ADa_Santa_Cruz_en_Huatulco.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Bah%C3%ADa_Santa_Cruz_en_Huatulco.jpg", "localPreview": "/images/visual-candidates/010-destinations-santa-cruz-bah-a-santa-cruz-en-huatulco-jpg.jpg", "provider": "wikimedia_commons", "license": "CC BY-SA 4.0", "creator": "Arturo Alcalá Hernández"}, {"id": "candidate-011-011-destinations-el-maguey-playa-el-maguey-panoramio-jpg-jpg", "route": "/destinations/el-maguey/", "title": "Playa el Maguey - panoramio.jpg", "targetTitle": "El Maguey Bay", "landingPage": "https://commons.wikimedia.org/wiki/File%3APlaya_el_Maguey_-_panoramio.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Playa_el_Maguey_-_panoramio.jpg", "localPreview": "/images/visual-candidates/011-destinations-el-maguey-playa-el-maguey-panoramio-jpg.jpg", "provider": "wikimedia_commons", "license": "CC BY 3.0", "creator": "ArCaRa"}, {"id": "candidate-012-012-destinations-san-agustin-bahia-san-agustin-huatulco-camping-webp-webp", "route": "/destinations/san-agustin/", "title": "Bahia San Agustin Huatulco camping.webp", "targetTitle": "San Agustín Bay", "landingPage": "https://commons.wikimedia.org/wiki/File%3ABahia_San_Agustin_Huatulco_camping.webp", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/7/74/Bahia_San_Agustin_Huatulco_camping.webp", "localPreview": "/images/visual-candidates/012-destinations-san-agustin-bahia-san-agustin-huatulco-camping-webp.webp", "provider": "wikimedia_commons", "license": "CC BY-SA 4.0", "creator": "1palm4420"}, {"id": "candidate-013-013-destinations-san-agustin-ni-os-jugando-en-una-playa-oaxaque-a-jpg-jpg", "route": "/destinations/san-agustin/", "title": "Niños jugando en una playa Oaxaqueña.jpg", "targetTitle": "San Agustín Bay", "landingPage": "https://commons.wikimedia.org/wiki/File%3ANi%C3%B1os_jugando_en_una_playa_Oaxaque%C3%B1a.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5a/Ni%C3%B1os_jugando_en_una_playa_Oaxaque%C3%B1a.jpg", "localPreview": "/images/visual-candidates/013-destinations-san-agustin-ni-os-jugando-en-una-playa-oaxaque-a-jpg.jpg", "provider": "wikimedia_commons", "license": "CC BY-SA 4.0", "creator": "Yuratan"}, {"id": "candidate-014-014-itineraries-3-days-huatulco-bah-a-santa-cruz-en-huatulco-jpg-jpg", "route": "/itineraries/3-days-huatulco/", "title": "Bahía Santa Cruz en Huatulco.jpg", "targetTitle": "3 Days in Huatulco", "landingPage": "https://commons.wikimedia.org/wiki/File%3ABah%C3%ADa_Santa_Cruz_en_Huatulco.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Bah%C3%ADa_Santa_Cruz_en_Huatulco.jpg", "localPreview": "/images/visual-candidates/014-itineraries-3-days-huatulco-bah-a-santa-cruz-en-huatulco-jpg.jpg", "provider": "wikimedia_commons", "license": "CC BY-SA 4.0", "creator": "Arturo Alcalá Hernández"}, {"id": "candidate-015-015-itineraries-3-days-huatulco-monumental-letters-in-huatulco-jpg-jpg", "route": "/itineraries/3-days-huatulco/", "title": "Monumental Letters in Huatulco.jpg", "targetTitle": "3 Days in Huatulco", "landingPage": "https://commons.wikimedia.org/wiki/File%3AMonumental_Letters_in_Huatulco.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/4/46/Monumental_Letters_in_Huatulco.jpg", "localPreview": "/images/visual-candidates/015-itineraries-3-days-huatulco-monumental-letters-in-huatulco-jpg.jpg", "provider": "wikimedia_commons", "license": "CC BY-SA 4.0", "creator": "Gzzz"}, {"id": "candidate-016-016-itineraries-3-days-huatulco-la-crucecita-oaxaca-mexico-jpg-jpg", "route": "/itineraries/3-days-huatulco/", "title": "La Crucecita Oaxaca Mexico.jpg", "targetTitle": "3 Days in Huatulco", "landingPage": "https://commons.wikimedia.org/wiki/File%3ALa_Crucecita_Oaxaca_Mexico.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1e/La_Crucecita_Oaxaca_Mexico.jpg", "localPreview": "/images/visual-candidates/016-itineraries-3-days-huatulco-la-crucecita-oaxaca-mexico-jpg.jpg", "provider": "wikimedia_commons", "license": "CC BY-SA 4.0", "creator": "Wavehunter"}, {"id": "candidate-017-017-itineraries-3-days-huatulco-iglesia-de-la-crucecita-02-jpg-jpg", "route": "/itineraries/3-days-huatulco/", "title": "Iglesia de la Crucecita 02.jpg", "targetTitle": "3 Days in Huatulco", "landingPage": "https://commons.wikimedia.org/wiki/File%3AIglesia_de_la_Crucecita_02.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/b/bb/Iglesia_de_la_Crucecita_02.jpg", "localPreview": "/images/visual-candidates/017-itineraries-3-days-huatulco-iglesia-de-la-crucecita-02-jpg.jpg", "provider": "wikimedia_commons", "license": "CC0", "creator": "Daniel Lobo"}, {"id": "candidate-018-Iglesia-de-la-Crucecita-08-jpg", "route": "/itineraries/3-days-huatulco/", "title": "Iglesia de la Crucecita 08.jpg", "targetTitle": "3 Days in Huatulco", "landingPage": "https://commons.wikimedia.org/wiki/File%3AIglesia_de_la_Crucecita_08.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/2/25/Iglesia_de_la_Crucecita_08.jpg", "localPreview": null, "provider": "wikimedia_commons", "license": "CC0", "creator": "Daniel Lobo"}, {"id": "candidate-019-019-things-to-do-boat-tours-bah-a-santa-cruz-en-huatulco-jpg-jpg", "route": "/things-to-do/boat-tours/", "title": "Bahía Santa Cruz en Huatulco.jpg", "targetTitle": "Huatulco boat tours", "landingPage": "https://commons.wikimedia.org/wiki/File%3ABah%C3%ADa_Santa_Cruz_en_Huatulco.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Bah%C3%ADa_Santa_Cruz_en_Huatulco.jpg", "localPreview": "/images/visual-candidates/019-things-to-do-boat-tours-bah-a-santa-cruz-en-huatulco-jpg.jpg", "provider": "wikimedia_commons", "license": "CC BY-SA 4.0", "creator": "Arturo Alcalá Hernández"}, {"id": "candidate-020-020-things-to-do-la-crucecita-market-monumental-letters-in-huatulco-jpg-jpg", "route": "/things-to-do/la-crucecita-market/", "title": "Monumental Letters in Huatulco.jpg", "targetTitle": "La Crucecita Market", "landingPage": "https://commons.wikimedia.org/wiki/File%3AMonumental_Letters_in_Huatulco.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/4/46/Monumental_Letters_in_Huatulco.jpg", "localPreview": "/images/visual-candidates/020-things-to-do-la-crucecita-market-monumental-letters-in-huatulco-jpg.jpg", "provider": "wikimedia_commons", "license": "CC BY-SA 4.0", "creator": "Gzzz"}, {"id": "candidate-021-La-Crucecita-Oaxaca-Mexico-jpg", "route": "/things-to-do/la-crucecita-market/", "title": "La Crucecita Oaxaca Mexico.jpg", "targetTitle": "La Crucecita Market", "landingPage": "https://commons.wikimedia.org/wiki/File%3ALa_Crucecita_Oaxaca_Mexico.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1e/La_Crucecita_Oaxaca_Mexico.jpg", "localPreview": null, "provider": "wikimedia_commons", "license": "CC BY-SA 4.0", "creator": "Wavehunter"}, {"id": "candidate-022-022-things-to-do-la-crucecita-market-iglesia-de-la-crucecita-02-jpg-jpg", "route": "/things-to-do/la-crucecita-market/", "title": "Iglesia de la Crucecita 02.jpg", "targetTitle": "La Crucecita Market", "landingPage": "https://commons.wikimedia.org/wiki/File%3AIglesia_de_la_Crucecita_02.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/b/bb/Iglesia_de_la_Crucecita_02.jpg", "localPreview": "/images/visual-candidates/022-things-to-do-la-crucecita-market-iglesia-de-la-crucecita-02-jpg.jpg", "provider": "wikimedia_commons", "license": "CC0", "creator": "Daniel Lobo"}, {"id": "candidate-023-Iglesia-de-la-Crucecita-08-jpg", "route": "/things-to-do/la-crucecita-market/", "title": "Iglesia de la Crucecita 08.jpg", "targetTitle": "La Crucecita Market", "landingPage": "https://commons.wikimedia.org/wiki/File%3AIglesia_de_la_Crucecita_08.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/2/25/Iglesia_de_la_Crucecita_08.jpg", "localPreview": null, "provider": "wikimedia_commons", "license": "CC0", "creator": "Daniel Lobo"}, {"id": "candidate-024-Santa-Mar%C3%ADa-Huatulco-3-jpg", "route": "/things-to-do/la-crucecita-market/", "title": "Santa María Huatulco 3.jpg", "targetTitle": "La Crucecita Market", "landingPage": "https://commons.wikimedia.org/wiki/File%3ASanta_Mar%C3%ADa_Huatulco_3.jpg", "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Santa_Mar%C3%ADa_Huatulco_3.jpg", "localPreview": null, "provider": "wikimedia_commons", "license": "CC BY-SA 4.0", "creator": "Own work"}]</script>
+<script>
+(() => {
+  const storageKey = 'top-huatulco-media-review-v1';
+  const candidates = JSON.parse(document.getElementById('candidateData').textContent || '[]');
+  const cards = Array.from(document.querySelectorAll('[data-review-card]'));
+  const summary = document.getElementById('reviewSummary');
+
+  const load = () => {
+    try { return JSON.parse(localStorage.getItem(storageKey) || '{}'); }
+    catch (error) { return {}; }
+  };
+  const save = (state) => localStorage.setItem(storageKey, JSON.stringify(state));
+  let state = load();
+
+  const setCardDecision = (card, decision, note) => {
+    const id = card.dataset.id;
+    const text = card.querySelector('[data-saved-state]');
+    const textarea = card.querySelector('[data-note]');
+    if (typeof note === 'string') textarea.value = note;
+    card.dataset.decision = decision || '';
+    card.querySelectorAll('[data-choice]').forEach((button) => {
+      button.setAttribute('aria-pressed', button.dataset.choice === decision ? 'true' : 'false');
+    });
+    text.textContent = decision ? `Saved: ${decision}` : 'Not reviewed yet';
+    if (!decision && !textarea.value.trim()) delete state[id];
+  };
+
+  const updateSummary = () => {
+    const values = Object.values(state);
+    const counts = values.reduce((acc, item) => {
+      if (item.decision) acc[item.decision] = (acc[item.decision] || 0) + 1;
+      return acc;
+    }, {});
+    const reviewed = values.filter(item => item.decision || item.note).length;
+    summary.textContent = `${reviewed} reviewed · ${counts.approved || 0} approved · ${counts.maybe || 0} maybe · ${counts.rejected || 0} rejected`;
+  };
+
+  cards.forEach((card) => {
+    const id = card.dataset.id;
+    const existing = state[id] || {};
+    setCardDecision(card, existing.decision || '', existing.note || '');
+    card.querySelectorAll('[data-choice]').forEach((button) => {
+      const choose = () => {
+        const next = button.dataset.choice;
+        const note = card.querySelector('[data-note]').value.trim();
+        if (next || note) state[id] = { ...(state[id] || {}), decision: next, note, updatedAt: new Date().toISOString() };
+        else delete state[id];
+        save(state);
+        setCardDecision(card, next, note);
+        updateSummary();
+      };
+      button.addEventListener('click', choose);
+      button.addEventListener('pointerup', choose);
+    });
+    card.querySelector('[data-note]').addEventListener('input', (event) => {
+      const note = event.target.value.trim();
+      const decision = state[id]?.decision || '';
+      if (decision || note) state[id] = { ...(state[id] || {}), decision, note, updatedAt: new Date().toISOString() };
+      else delete state[id];
+      save(state);
+      updateSummary();
+    });
+  });
+
+  const exportPayload = () => {
+    const decisions = candidates.map((candidate) => ({
+      ...candidate,
+      decision: state[candidate.id]?.decision || '',
+      reviewNote: state[candidate.id]?.note || '',
+      updatedAt: state[candidate.id]?.updatedAt || '',
+    }));
+    return {
+      exportedAt: new Date().toISOString(),
+      storageKey,
+      totals: {
+        candidates: decisions.length,
+        approved: decisions.filter(item => item.decision === 'approved').length,
+        maybe: decisions.filter(item => item.decision === 'maybe').length,
+        rejected: decisions.filter(item => item.decision === 'rejected').length,
+        reviewed: decisions.filter(item => item.decision || item.reviewNote).length,
+      },
+      decisions,
+    };
+  };
+
+  document.getElementById('exportReview').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(exportPayload(), null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `top-huatulco-media-review-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.append(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  });
+
+  document.getElementById('copyReview').addEventListener('click', async () => {
+    await navigator.clipboard.writeText(JSON.stringify(exportPayload(), null, 2));
+    summary.textContent = 'Review JSON copied to clipboard';
+    setTimeout(updateSummary, 1800);
+  });
+
+  document.getElementById('clearReview').addEventListener('click', () => {
+    if (!confirm('Clear saved decisions in this browser?')) return;
+    state = {};
+    localStorage.removeItem(storageKey);
+    cards.forEach(card => setCardDecision(card, '', ''));
+    updateSummary();
+  });
+
+  updateSummary();
+})();
+</script>
 </body>
 </html>
