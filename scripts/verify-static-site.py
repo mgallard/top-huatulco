@@ -16,6 +16,14 @@ REQUIRED_ROUTES = [
 ]
 BANNED = ['lorem ipsum', 'coming soon', 'todo', 'fixme', 'placeholder', 'AI slop']
 BAD_LINKS = ['san-agust-n', '/rgano/', '/chahu/', 'puerto-ngel']
+ENTITY_DEPTH_REQUIREMENTS = {
+    '/food-culture/': ['data-entity-depth=\'food-culture\'', 'Terra-Cotta', 'El Sabor de Oaxaca', 'Mercader', 'Casa Bocana', 'Mercado 3 de Mayo', 'data-visible-sources=\'true\''],
+    '/tours/': ['data-entity-depth=\'tours\'', 'Oceanico Huatulco', 'Huatulco Watersports', 'Tours en Huatulco', 'Pilo Vázquez', 'Marinautica Huatulco', 'data-visible-sources=\'true\''],
+    '/things-to-do/snorkeling/': ['data-entity-depth=\'snorkeling\'', 'Maguey / La Entrega', 'San Agustín', 'Chachacual', 'Cacaluta', 'Oceanico Huatulco'],
+    '/things-to-do/boat-tours/': ['data-entity-depth=\'boat-tours\'', 'Start at Santa Cruz', 'Classic shared panga', 'Small-group nature boat', 'Private/custom boat', 'data-visible-sources=\'true\''],
+    '/things-to-do/copalita-archaeology/': ['data-entity-depth=\'copalita\'', 'Bocana del Río Copalita', 'official INAH listing', 'Casa Bocana', 'data-visible-sources=\'true\''],
+    '/things-to-do/la-crucecita-market/': ['data-entity-depth=\'la-crucecita-market\'', 'Mercado 3 de Mayo', 'Iglesia de La Crucecita', 'Terra-Cotta', 'El Sabor de Oaxaca'],
+}
 
 class Parser(HTMLParser):
     def __init__(self):
@@ -64,6 +72,9 @@ for p in ROOT.rglob('index.html'):
     for b in BAD_LINKS:
         if b in txt:
             errors.append(f'{rel} has bad slug/link {b}')
+    for marker in ENTITY_DEPTH_REQUIREMENTS.get(rel, []):
+        if marker not in txt:
+            errors.append(f'{rel} missing entity-depth marker/content {marker}')
     for href in parser.hrefs:
         if href.startswith(('http://','https://','mailto:','#')): continue
         if href.startswith('/assets/') or href.startswith('/icons.svg'): continue

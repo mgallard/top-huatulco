@@ -33,6 +33,53 @@ This source map records the public sources used for the Huatulco bay and itinera
 - `/itineraries/3-days-huatulco/`
 - `/itineraries/5-days-oaxaca-coast/`
 
+## Entity-depth source additions — 2026-05-30
+
+1. Terra-Cotta Restaurant
+   - URL: https://www.terracotta.com.mx/
+   - Used for: La Crucecita restaurant identity, Oaxacan dishes, coffee/mezcal positioning, town-square location, and official current-check link on `/food-culture/`.
+   - Copy rule: mention as a place to check, not a permanent ranking or guaranteed current-hours claim.
+
+2. Huatulco Watersports
+   - URL: https://www.huatulcowatersports.com/
+   - Used for: private boat, jet ski, sightseeing, and custom water-tour comparison points on `/tours/`, `/things-to-do/boat-tours/`, and `/things-to-do/snorkeling/`.
+   - Copy rule: use as an operator comparison example; do not hard-code volatile prices/inclusions.
+
+3. Oceanico Huatulco
+   - URL: https://oceanico.org/
+   - Used for: small-group marine/naturalist tour comparison, wildlife/snorkeling framing, and seasonal whale/dolphin caveats on `/tours/`, `/things-to-do/boat-tours/`, and `/things-to-do/snorkeling/`.
+   - Copy rule: keep wildlife sightings and snorkeling visibility as possibilities, never guarantees.
+
+4. Tours en Huatulco — 5 Bays Boat Tour
+   - URL: https://www.toursenhuatulco.com/en/itinerary-5-bays-boat.html
+   - Used for: classic Santa Cruz-departure shared boat-tour baseline, multi-bay route/inclusions questions, and all-ages/easy structure.
+   - Copy rule: cite as a baseline booking pattern; visitors still verify route, inclusions, and conditions.
+
+5. Pilo Vázquez Huatulco bay tours
+   - URL: https://pilovazquez.com/huatulco-bay-tours.php
+   - Used for: local/private-style bay tour comparison point.
+   - Copy rule: use as an operator to compare, not an endorsement.
+
+6. Amstar Sea and Sun Bays
+   - URL: https://www.amstardmc.com/en/excursions/sea-and-sun-bays/
+   - Used for: hotel-desk / excursion-provider comparison point.
+   - Copy rule: frame as convenient but worth comparing against direct/local operators.
+
+7. Casa Bocana Restaurant
+   - URL: https://www.casabocana.mx/en-gb/restaurante
+   - Used for: La Bocana / Copalita dinner pairing on `/food-culture/` and `/things-to-do/copalita-archaeology/`.
+   - Copy rule: tell visitors to verify reservation/transport rather than present fixed service details.
+
+8. INAH — Bocana del Río Copalita
+   - URL: https://lugares.inah.gob.mx/en/node/4487
+   - Used for: official Copalita archaeology context, ceremonial-center framing, structures/ballcourt, setting near the Copalita River mouth, and current access verification.
+   - Copy rule: use INAH for historical context; verify current access because visitor-facing access can change.
+
+9. El Sabor de Oaxaca / Mercader / Mercado 3 de Mayo public listings
+   - URLs: https://www.facebook.com/elsabordeoaxacahuatulco/ ; https://www.facebook.com/mercaderhuatulco/ ; current map/review listings for Mercado 3 de Mayo.
+   - Used for: named town-food and market shortlist on `/food-culture/` and `/things-to-do/la-crucecita-market/`.
+   - Copy rule: restaurants/market stalls are live businesses; always prompt visitors to verify current hours and recent signals.
+
 ## Editorial rules
 
 - Keep bay advice decision-led: choose / avoid / pair-with.
