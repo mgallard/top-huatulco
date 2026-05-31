@@ -3,7 +3,7 @@
 Working folder: /home/osohermes/projects/top-huatulco
 Live preview alias: https://top-huatulco.vercel.app
 GitHub backup: https://github.com/mgallard/top-huatulco
-Latest code commit: pending section-depth reset for Things to do, Itineraries, and Travel guide
+Latest code commit: 55f7223 Reset Huatulco section guide depth
 Vercel project: top-huatulco under mogensgallardo-8987s-projects; preview/staging alias only, no TopHuatulco.com DNS connected.
 
 Current state:
