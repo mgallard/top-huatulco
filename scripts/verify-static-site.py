@@ -49,6 +49,19 @@ LAUNCH_UTILITY_REQUIREMENTS = {
     '/itineraries/': ['data-hub-child-cta=\'itinerary-depth\'', 'href=\'/itineraries/4-days-relax-snorkel/\'', 'href=\'/itineraries/snorkel-boat-day/\''],
     '/travel-guide/': ['data-hub-child-cta=\'travel-guide-depth\'', 'href=\'/travel-guide/getting-around/\'', 'href=\'/travel-guide/packing-list/\''],
 }
+SITEWIDE_STRUCTURE_EXEMPT_ROUTES = {'/', '/about/', '/privacy/', '/terms/', '/image-credits/', '/media-review/'}
+SITEWIDE_STRUCTURE_REQUIREMENTS = {
+    '/destinations/': ['data-sitewide-structure=\'tourism-guide\'', 'Quick verdict: pick the bay by the day you want', 'data-structure-verdict=\'true\''],
+    '/beaches/': ['data-sitewide-structure=\'tourism-guide\'', 'Quick verdict: choose beaches by conditions', 'data-responsive-table=\'structure-decision\''],
+    '/towns-cities/': ['data-sitewide-structure=\'tourism-guide\'', 'Quick verdict: use each town for a specific job', 'data-guide-nav'],
+    '/food-culture/': ['data-sitewide-structure=\'tourism-guide\'', 'Quick verdict: plan meals around town nights', 'data-structure-next-links=\'true\''],
+    '/tours/': ['data-sitewide-structure=\'tourism-guide\'', 'Quick verdict: buy clarity', 'data-responsive-table=\'structure-decision\''],
+    '/things-to-do/': ['data-sitewide-structure=\'tourism-guide\'', 'Quick verdict: choose the activity by the kind of day', 'data-guide-nav'],
+    '/itineraries/': ['data-sitewide-structure=\'tourism-guide\'', 'Quick verdict: choose the route by pace', 'data-guide-nav'],
+    '/travel-guide/': ['data-sitewide-structure=\'tourism-guide\'', 'Quick verdict: solve logistics before choosing more beaches', 'data-guide-nav'],
+    '/towns-cities/la-crucecita/': ['data-sitewide-structure=\'tourism-guide\'', 'Quick verdict: use La Crucecita', 'data-guide-nav'],
+    '/towns-cities/santa-cruz/': ['data-sitewide-structure=\'tourism-guide\'', 'Quick verdict: use Santa Cruz', 'data-guide-nav'],
+}
 
 VISITOR_REFERENCE_REQUIREMENTS = {
     '/towns-cities/': ['data-priority-guide-depth=\'visitor-reference\'', 'Choose by what you want to do', 'La Crucecita solves food and errands', 'Simple route logic'],
@@ -137,6 +150,16 @@ for p in ROOT.rglob('index.html'):
     for marker in LAUNCH_UTILITY_REQUIREMENTS.get(rel, []):
         if marker not in txt:
             errors.append(f'{rel} missing launch-utility marker/content {marker}')
+    for marker in SITEWIDE_STRUCTURE_REQUIREMENTS.get(rel, []):
+        if marker not in txt:
+            errors.append(f'{rel} missing sitewide-structure marker/content {marker}')
+    if rel not in SITEWIDE_STRUCTURE_EXEMPT_ROUTES and '/media-review/' not in rel:
+        if "data-subject-led-guide='true'" not in txt and 'data-subject-led-guide="true"' not in txt:
+            errors.append(f'{rel} missing subject-led guide marker')
+        if "data-sitewide-structure='tourism-guide'" not in txt and 'data-sitewide-structure="tourism-guide"' not in txt:
+            errors.append(f'{rel} missing sitewide tourism-guide marker')
+        if 'Quick verdict' not in txt:
+            errors.append(f'{rel} missing Quick verdict content')
     if '<table' in txt and 'data-responsive-table' not in txt:
         errors.append(f'{rel} has table without data-responsive-table wrapper')
     for href in parser.hrefs:
@@ -149,6 +172,7 @@ for p in ROOT.rglob('index.html'):
 if not (ROOT/'public/robots.txt').exists(): errors.append('Missing robots.txt')
 if not (ROOT/'public/sitemap.xml').exists(): errors.append('Missing sitemap.xml')
 if not (ROOT/'LAUNCH_GAP_AUDIT.md').exists(): errors.append('Missing launch gap audit')
+if not (ROOT/'SITEWIDE_CONTENT_STRUCTURE_AUDIT.md').exists(): errors.append('Missing sitewide content structure audit')
 robots = (ROOT/'public/robots.txt').read_text(encoding='utf-8') if (ROOT/'public/robots.txt').exists() else ''
 if 'Disallow: /media-review/' not in robots: errors.append('robots.txt must disallow review-only media board')
 if 'Sitemap: https://tophuatulco.com/sitemap.xml' not in robots: errors.append('robots.txt missing sitemap directive')

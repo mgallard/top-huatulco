@@ -22,7 +22,7 @@
   </nav>
   <div id='mobile-menu' data-mobile-menu class='container-xl hidden pb-4 xl:hidden'><div class='rounded-[1.5rem] border border-border bg-white p-3 text-sm font-bold shadow-card'><a href='/destinations/' class='block rounded-2xl px-4 py-3 hover:bg-secondary'>Bays</a><a href='/beaches/' class='block rounded-2xl px-4 py-3 hover:bg-secondary'>Beaches</a><a href='/towns-cities/' class='block rounded-2xl px-4 py-3 hover:bg-secondary'>Towns</a><a href='/things-to-do/' class='block rounded-2xl px-4 py-3 hover:bg-secondary'>Things to do</a><a href='/itineraries/' class='block rounded-2xl px-4 py-3 hover:bg-secondary'>Itineraries</a><a href='/travel-guide/' class='block rounded-2xl px-4 py-3 hover:bg-secondary'>Travel guide</a><a href='/food-culture/' class='block rounded-2xl px-4 py-3 hover:bg-secondary'>Food</a><a href='/tours/' class='block rounded-2xl px-4 py-3 hover:bg-secondary'>Tours</a></div></div>
 </header>
-<main data-priority-guide-depth='visitor-reference'>
+<main data-priority-guide-depth='visitor-reference' data-subject-led-guide='true' data-sitewide-structure='tourism-guide'>
 <section class='bg-[linear-gradient(135deg,#EBF8FA_0%,#FFF7ED_100%)] py-12 sm:py-16'>
   <div class='container-xl'>
     <p class='font-script text-2xl leading-none text-primary'>Food and culture</p>
@@ -32,7 +32,47 @@
 </section>
 <section class='bg-background pb-2' data-approved-route-media='true' data-media-pass='second'><div class='container-xl'><figure class='overflow-hidden rounded-[2rem] border border-white bg-white shadow-card'><img src='/images/photos/huatulco-la-crucecita-oaxaca-mexico-jpg-food-culture.webp' alt='La Crucecita town center context for Huatulco food and culture planning' class='h-72 w-full object-cover sm:h-96' loading='eager' decoding='async' width='1600' height='1200'><figcaption class='px-5 py-3 text-xs font-semibold text-ink/60'>Reviewed image: La Crucecita Oaxaca Mexico. Approved town image used for the food/culture hub because most named restaurants and markets cluster in La Crucecita. Full credit on the Sources & credits page.</figcaption></figure></div></section>
 
-<section class='section-pad' data-entity-depth='food-culture'><div class='container-xl max-w-6xl'>
+<!-- sitewide-content-structure:start -->
+<nav class='section-pad !py-6' data-guide-nav aria-label='On-page guide sections'>
+  <div class='container-xl'>
+    <div class='rounded-[2rem] border border-border bg-surface p-5 shadow-card'>
+      <p class='text-xs font-bold uppercase tracking-[.18em] text-primary'>On this page</p>
+      <div class='mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4'><a class='rounded-2xl border border-border bg-white px-4 py-3 text-sm font-bold text-ink/75 shadow-soft hover:text-primary' data-guide-nav-link href='#structure-verdict'>Quick verdict</a><a class='rounded-2xl border border-border bg-white px-4 py-3 text-sm font-bold text-ink/75 shadow-soft hover:text-primary' data-guide-nav-link href='#food-directory'>Named food options</a><a class='rounded-2xl border border-border bg-white px-4 py-3 text-sm font-bold text-ink/75 shadow-soft hover:text-primary' data-guide-nav-link href='#meal-plan'>3–5 day meal plan</a><a class='rounded-2xl border border-border bg-white px-4 py-3 text-sm font-bold text-ink/75 shadow-soft hover:text-primary' data-guide-nav-link href='#check-before'>Check first</a></div>
+    </div>
+  </div>
+</nav>
+<section id='structure-verdict' class='section-pad !pb-6 !pt-8' data-structure-verdict='true'>
+  <div class='container-xl max-w-6xl'>
+    <div class='grid gap-6 lg:grid-cols-[1.05fr_.95fr]'>
+      <article class='card p-7 sm:p-8'>
+        <p class='text-sm font-bold uppercase tracking-[.16em] text-primary'>Food planning</p>
+        <h2 class='mt-2 font-heading text-3xl font-semibold'>Quick verdict: plan meals around town nights and beach lunches</h2>
+        <p class='mt-4 leading-8 text-ink/75'>Food is not a separate errand in Huatulco. Use La Crucecita for your most reliable planned dinners, Mercado 3 de Mayo for daytime town texture, and bay palapas for simple seafood tied to the beach you are already visiting.</p>
+      </article>
+      <aside class='card bg-surface p-7 sm:p-8'>
+        <h2 class='font-heading text-2xl font-semibold'>Choose / avoid</h2>
+        <ul class='mt-4 list-disc space-y-3 pl-5 leading-7 text-ink/75'>
+          <li><strong>Choose this when:</strong> you match the meal to the day: town dinner after errands, beach seafood after swimming, market morning before an easy afternoon.</li>
+          <li><strong>Avoid this when:</strong> you chase a restaurant ranking across town when the day already has heat, boat timing, or return-transport friction.</li>
+          <li><strong>Better backup idea:</strong> If a restaurant is closed or full, keep a nearby town backup rather than crossing between bays at dinner time.</li>
+        </ul>
+      </aside>
+    </div>
+    <div class='mt-6 overflow-hidden rounded-[1.5rem] border border-border bg-white shadow-card' data-responsive-table='structure-decision'>
+      <table class='w-full text-sm'>
+        <thead><tr class='bg-secondary text-left text-ink/65'><th class='p-4'>Visitor question</th><th class='p-4'>Decision rule</th></tr></thead>
+        <tbody>
+          <tr class='border-t border-border'><td class='p-4 font-bold'>What should I decide first?</td><td class='p-4 text-ink/75'>you match the meal to the day: town dinner after errands, beach seafood after swimming, market morning before an easy afternoon.</td></tr>
+          <tr class='border-t border-border'><td class='p-4 font-bold'>What can go wrong?</td><td class='p-4 text-ink/75'>If a restaurant is closed or full, keep a nearby town backup rather than crossing between bays at dinner time.</td></tr>
+          <tr class='border-t border-border'><td class='p-4 font-bold'>What should I verify?</td><td class='p-4 text-ink/75'>Hours, closing days, reservation needs, payment options, current menus, and holiday/weekend crowds.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class='mt-6 flex flex-wrap gap-3' data-structure-next-links='true'><a class='inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-white hover:brightness-110' href='/towns-cities/la-crucecita/'>Town food base</a><a class='inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-white hover:brightness-110' href='/things-to-do/la-crucecita-market/'>Market guide</a><a class='inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-white hover:brightness-110' href='/itineraries/4-days-relax-snorkel/'>Food in itinerary</a></div>
+  </div>
+</section>
+<!-- sitewide-content-structure:end -->
+<section id='food-directory' class='section-pad' data-entity-depth='food-culture'><div class='container-xl max-w-6xl'>
   <div class='grid gap-6 lg:grid-cols-[1fr_.9fr]'>
     <div class='card p-7'><p class='text-sm font-bold uppercase tracking-[.16em] text-primary'>Quick verdict</p><h2>Use La Crucecita for planned meals; use the bays for seafood lunches.</h2><p class='mt-3 leading-7 text-ink/75'>Huatulco food works best as a two-part plan: town for Oaxacan restaurants, coffee, mezcal, markets, and reliable dinner choices; bays for simple seafood lunches after swimming or boat days.</p></div>
     <div class='card bg-surface p-7'><h2>Choose / avoid</h2><ul class='mt-4 list-disc space-y-3 pl-5 leading-7 text-ink/75'><li><strong>Choose La Crucecita</strong> for Terra-Cotta, El Sabor de Oaxaca, Mercado 3 de Mayo, coffee, mole, tlayudas, chocolate, mezcal, and evening variety.</li><li><strong>Choose Santa Cruz, Maguey, or similar beach palapa stops</strong> for grilled fish, shrimp, ceviche-style lunches, and easy meals tied to boat or beach plans.</li><li><strong>Avoid</strong> treating online rankings as fixed truth; menus, ownership, staffing, and hours change, so verify details the same week.</li></ul></div>
@@ -46,8 +86,8 @@
     <div class='card flex h-full flex-col p-6'><h3 class='font-heading text-xl font-semibold text-ink'>Bay seafood palapas</h3><p class='mt-3 leading-7 text-ink/75'>Best beach-day lunch: order simply, ask about the catch or grilled seafood options, and keep enough cash for palapas that may not handle cards reliably.</p></div>
   </div>
 </div></section>
-<section class='section-pad bg-white'><div class='container-xl max-w-5xl'><div class='card p-7'><h2>A better food plan for 3 to 5 days</h2><div class='mt-5 grid gap-4 md:grid-cols-3'><div class='rounded-3xl bg-secondary p-5'><strong>Night 1</strong><p class='mt-2 text-sm leading-6 text-ink/75'>La Crucecita dinner so you learn the town grid, ATMs, pharmacies, and taxi rhythm.</p></div><div class='rounded-3xl bg-secondary p-5'><strong>Boat or beach day</strong><p class='mt-2 text-sm leading-6 text-ink/75'>Seafood lunch at the bay you are actually visiting; do not cross town just because a list says so.</p></div><div class='rounded-3xl bg-secondary p-5'><strong>Market morning</strong><p class='mt-2 text-sm leading-6 text-ink/75'>Mercado 3 de Mayo, coffee, chocolate, mezcal browsing, then a flexible beach or rest afternoon.</p></div></div></div></div></section>
-<section class='section-pad bg-surface' data-visible-sources='true'><div class='container-xl max-w-5xl'><div class='card p-7'><h2>Current details to verify</h2><ul class='mt-4 list-disc space-y-3 pl-5 leading-7 text-ink/75'><li><a class='font-bold text-primary hover:underline' href='https://www.terracotta.com.mx/es/'>Terra-Cotta official site</a> — menu, location, and reservation context.</li><li><a class='font-bold text-primary hover:underline' href='https://en.visitahuatulco.mx/'>Visita Huatulco</a> — destination and bay context.</li><li>Restaurant social pages or direct calls — same-week hours, closing days, holiday reservations, and payment options.</li></ul></div></div></section>
+<section id='meal-plan' class='section-pad bg-white'><div class='container-xl max-w-5xl'><div class='card p-7'><h2>A better food plan for 3 to 5 days</h2><div class='mt-5 grid gap-4 md:grid-cols-3'><div class='rounded-3xl bg-secondary p-5'><strong>Night 1</strong><p class='mt-2 text-sm leading-6 text-ink/75'>La Crucecita dinner so you learn the town grid, ATMs, pharmacies, and taxi rhythm.</p></div><div class='rounded-3xl bg-secondary p-5'><strong>Boat or beach day</strong><p class='mt-2 text-sm leading-6 text-ink/75'>Seafood lunch at the bay you are actually visiting; do not cross town just because a list says so.</p></div><div class='rounded-3xl bg-secondary p-5'><strong>Market morning</strong><p class='mt-2 text-sm leading-6 text-ink/75'>Mercado 3 de Mayo, coffee, chocolate, mezcal browsing, then a flexible beach or rest afternoon.</p></div></div></div></div></section>
+<section id='check-before' class='section-pad bg-surface' data-visible-sources='true'><div class='container-xl max-w-5xl'><div class='card p-7'><h2>Current details to verify</h2><ul class='mt-4 list-disc space-y-3 pl-5 leading-7 text-ink/75'><li><a class='font-bold text-primary hover:underline' href='https://www.terracotta.com.mx/es/'>Terra-Cotta official site</a> — menu, location, and reservation context.</li><li><a class='font-bold text-primary hover:underline' href='https://en.visitahuatulco.mx/'>Visita Huatulco</a> — destination and bay context.</li><li>Restaurant social pages or direct calls — same-week hours, closing days, holiday reservations, and payment options.</li></ul></div></div></section>
 
 </main>
 <footer class='border-t border-border bg-surface py-10 text-sm text-ink/60'><div class='container-xl grid gap-4 md:grid-cols-2'><div><strong class='text-ink'>Top Huatulco</strong><p class='mt-2'>Practical travel guides for Huatulco and the Oaxaca coast.</p></div><div class='md:text-right'><a href='/about/' class='font-bold text-primary'>About</a><span class='mx-2'>•</span><a href='/image-credits/' class='font-bold text-primary'>Sources & credits</a><span class='mx-2'>•</span><a href='/privacy/' class='font-bold text-primary'>Privacy</a></div></div></footer>

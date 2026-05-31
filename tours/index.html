@@ -21,7 +21,7 @@
   </nav>
   <div id='mobile-menu' data-mobile-menu class='container-xl hidden pb-4 xl:hidden'><div class='rounded-[1.5rem] border border-border bg-white p-3 text-sm font-bold shadow-card'><a href='/destinations/' class='block rounded-2xl px-4 py-3 hover:bg-secondary'>Bays</a><a href='/beaches/' class='block rounded-2xl px-4 py-3 hover:bg-secondary'>Beaches</a><a href='/towns-cities/' class='block rounded-2xl px-4 py-3 hover:bg-secondary'>Towns</a><a href='/things-to-do/' class='block rounded-2xl px-4 py-3 hover:bg-secondary'>Things to do</a><a href='/itineraries/' class='block rounded-2xl px-4 py-3 hover:bg-secondary'>Itineraries</a><a href='/travel-guide/' class='block rounded-2xl px-4 py-3 hover:bg-secondary'>Travel guide</a><a href='/food-culture/' class='block rounded-2xl px-4 py-3 hover:bg-secondary'>Food</a><a href='/tours/' class='block rounded-2xl px-4 py-3 hover:bg-secondary'>Tours</a></div></div>
 </header>
-<main>
+<main data-subject-led-guide='true' data-sitewide-structure='tourism-guide'>
 <section class='bg-[linear-gradient(135deg,#EBF8FA_0%,#FFF7ED_100%)] py-12 sm:py-16 '>
   <div class='container-xl'>
     <p class='font-script text-2xl leading-none text-primary'>Tours</p>
@@ -29,7 +29,47 @@
     <p class='mt-4 max-w-3xl text-base leading-8 text-ink/70 sm:text-lg'>How to choose Huatulco boat tours, snorkel trips, Copalita visits, and Oaxaca coast day trips without wasting money.</p>
   </div>
 </section>
-<section class='section-pad' data-priority-guide-depth='visitor-reference' data-entity-depth='tours'>
+<!-- sitewide-content-structure:start -->
+<nav class='section-pad !py-6' data-guide-nav aria-label='On-page guide sections'>
+  <div class='container-xl'>
+    <div class='rounded-[2rem] border border-border bg-surface p-5 shadow-card'>
+      <p class='text-xs font-bold uppercase tracking-[.18em] text-primary'>On this page</p>
+      <div class='mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4'><a class='rounded-2xl border border-border bg-white px-4 py-3 text-sm font-bold text-ink/75 shadow-soft hover:text-primary' data-guide-nav-link href='#structure-verdict'>Quick verdict</a><a class='rounded-2xl border border-border bg-white px-4 py-3 text-sm font-bold text-ink/75 shadow-soft hover:text-primary' data-guide-nav-link href='#operator-options'>Operator comparison</a><a class='rounded-2xl border border-border bg-white px-4 py-3 text-sm font-bold text-ink/75 shadow-soft hover:text-primary' data-guide-nav-link href='#choose-format'>Choose format</a><a class='rounded-2xl border border-border bg-white px-4 py-3 text-sm font-bold text-ink/75 shadow-soft hover:text-primary' data-guide-nav-link href='#check-before'>Check first</a></div>
+    </div>
+  </div>
+</nav>
+<section id='structure-verdict' class='section-pad !pb-6 !pt-8' data-structure-verdict='true'>
+  <div class='container-xl max-w-6xl'>
+    <div class='grid gap-6 lg:grid-cols-[1.05fr_.95fr]'>
+      <article class='card p-7 sm:p-8'>
+        <p class='text-sm font-bold uppercase tracking-[.16em] text-primary'>Tour planning</p>
+        <h2 class='mt-2 font-heading text-3xl font-semibold'>Quick verdict: buy clarity, not just a low headline price</h2>
+        <p class='mt-4 leading-8 text-ink/75'>A good Huatulco tour is defined by route honesty, sea-condition flexibility, inclusion clarity, meeting point, group size, and whether the operator can explain why a bay is worth using that day.</p>
+      </article>
+      <aside class='card bg-surface p-7 sm:p-8'>
+        <h2 class='font-heading text-2xl font-semibold'>Choose / avoid</h2>
+        <ul class='mt-4 list-disc space-y-3 pl-5 leading-7 text-ink/75'>
+          <li><strong>Choose this when:</strong> you know the exact route, pickup/meeting point, inclusions, fees, group size, cancellation rules, and weather backup.</li>
+          <li><strong>Avoid this when:</strong> you are comparing only price or letting a hotel desk sell a vague “five bays” plan without naming stops and conditions.</li>
+          <li><strong>Better backup idea:</strong> If sea conditions are wrong, choose a land day: Copalita, La Crucecita, Chahué sunset, or a shorter Santa Cruz meal/walk plan.</li>
+        </ul>
+      </aside>
+    </div>
+    <div class='mt-6 overflow-hidden rounded-[1.5rem] border border-border bg-white shadow-card' data-responsive-table='structure-decision'>
+      <table class='w-full text-sm'>
+        <thead><tr class='bg-secondary text-left text-ink/65'><th class='p-4'>Visitor question</th><th class='p-4'>Decision rule</th></tr></thead>
+        <tbody>
+          <tr class='border-t border-border'><td class='p-4 font-bold'>What should I decide first?</td><td class='p-4 text-ink/75'>you know the exact route, pickup/meeting point, inclusions, fees, group size, cancellation rules, and weather backup.</td></tr>
+          <tr class='border-t border-border'><td class='p-4 font-bold'>What can go wrong?</td><td class='p-4 text-ink/75'>If sea conditions are wrong, choose a land day: Copalita, La Crucecita, Chahué sunset, or a shorter Santa Cruz meal/walk plan.</td></tr>
+          <tr class='border-t border-border'><td class='p-4 font-bold'>What should I verify?</td><td class='p-4 text-ink/75'>Operator license/reputation, route changes, park fees, snorkel gear, lunch/drinks, cancellation policy, and return time.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class='mt-6 flex flex-wrap gap-3' data-structure-next-links='true'><a class='inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-white hover:brightness-110' href='/things-to-do/boat-tours/'>Boat tours</a><a class='inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-white hover:brightness-110' href='/things-to-do/snorkeling/'>Snorkeling</a><a class='inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-white hover:brightness-110' href='/things-to-do/copalita-archaeology/'>Copalita</a></div>
+  </div>
+</section>
+<!-- sitewide-content-structure:end -->
+<section id='operator-options' class='section-pad' data-priority-guide-depth='visitor-reference' data-entity-depth='tours'>
   <div class='container-xl max-w-6xl'>
     <div class='grid gap-6 lg:grid-cols-[1fr_1fr]'>
       <article class='card p-7 sm:p-8'>
@@ -73,7 +113,7 @@
       </div>
     </section>
 
-    <section class='mt-10 grid gap-6 lg:grid-cols-3'>
+    <section id='choose-format' class='mt-10 grid gap-6 lg:grid-cols-3'>
       <div class='card p-6'><h3>Choose shared boat</h3><p class='mt-2 text-sm leading-6 text-ink/70'>Best for first-timers, budget control, easy logistics, and seeing multiple bays without designing the day yourself.</p></div>
       <div class='card p-6'><h3>Choose private boat</h3><p class='mt-2 text-sm leading-6 text-ink/70'>Best for families, photographers, serious snorkelers, mobility needs, or anyone who wants to leave early and avoid crowded swim stops.</p></div>
       <div class='card p-6'><h3>Skip the boat day</h3><p class='mt-2 text-sm leading-6 text-ink/70'>If anyone is seasick, heat-sensitive, or uninterested in snorkeling, build a land day around La Crucecita, Copalita, Chahué, and a resort pool instead.</p></div>
