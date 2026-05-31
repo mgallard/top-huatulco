@@ -19,18 +19,18 @@ BAD_LINKS = ['san-agust-n', '/rgano/', '/chahu/', 'puerto-ngel']
 ENTITY_DEPTH_REQUIREMENTS = {
     '/food-culture/': ['data-entity-depth=\'food-culture\'', 'Terra-Cotta', 'El Sabor de Oaxaca', 'Mercader', 'Casa Bocana', 'Mercado 3 de Mayo', 'data-visible-sources=\'true\''],
     '/tours/': ['data-entity-depth=\'tours\'', 'Oceanico Huatulco', 'Huatulco Watersports', 'Tours en Huatulco', 'Pilo Vázquez', 'Marinautica Huatulco', 'data-visible-sources=\'true\''],
-    '/things-to-do/snorkeling/': ['data-entity-depth=\'snorkeling\'', 'Maguey / La Entrega', 'San Agustín', 'Chachacual', 'Cacaluta', 'Oceanico Huatulco'],
-    '/things-to-do/boat-tours/': ['data-entity-depth=\'boat-tours\'', 'Start at Santa Cruz', 'Classic shared panga', 'Small-group nature boat', 'Private/custom boat', 'data-visible-sources=\'true\''],
-    '/things-to-do/copalita-archaeology/': ['data-entity-depth=\'copalita\'', 'Bocana del Río Copalita', 'official INAH listing', 'Casa Bocana', 'data-visible-sources=\'true\''],
-    '/things-to-do/la-crucecita-market/': ['data-entity-depth=\'la-crucecita-market\'', 'Mercado 3 de Mayo', 'Iglesia de La Crucecita', 'Terra-Cotta', 'El Sabor de Oaxaca'],
+    '/things-to-do/snorkeling/': ['data-entity-depth=\'snorkeling\'', 'Maguey', 'Chachacual', 'Cacaluta', 'Santa Cruz marina operators'],
+    '/things-to-do/boat-tours/': ['data-entity-depth=\'boat-tours\'', 'Start at Santa Cruz', 'classic shared panga', 'small-group nature boat', 'private/custom boat', 'data-visible-sources=\'true\''],
+    '/things-to-do/copalita-archaeology/': ['data-entity-depth=\'copalita\'', 'Bocana del Río Copalita', 'INAH Bocana del Río Copalita listing', 'Bocana beach restaurants', 'data-visible-sources=\'true\''],
+    '/things-to-do/la-crucecita-market/': ['data-entity-depth=\'la-crucecita-market\'', 'Mercado 3 de Mayo', 'La Crucecita zócalo', 'Terra-Cotta', 'El Sabor de Oaxaca'],
 }
 MEDIA_REQUIREMENTS = {
     '/destinations/chahue/': ['data-approved-route-media=\'true\'', 'Huatulco', '/images/photos/huatulco-huatulco-jpg-destinations-chahue.webp'],
     '/destinations/cacaluta/': ['data-approved-route-media=\'true\'', 'CacalutaPlaya', '/images/photos/huatulco-cacalutaplaya-jpg-destinations-cacaluta.webp'],
-    '/things-to-do/snorkeling/': ['data-approved-route-media=\'true\'', 'Playa Riscalillo'],
-    '/things-to-do/boat-tours/': ['data-approved-route-media=\'true\'', 'Maguey Bay'],
+    '/things-to-do/snorkeling/': ['data-approved-route-media=\'true\'', 'Playa Riscalillo', '/images/photos/huatulco-playa-riscalillo-bah-as-de-huatulco-1-jpg-mosaic.webp'],
+    '/things-to-do/boat-tours/': ['data-approved-route-media=\'true\'', 'Maguey Bay', '/images/photos/huatulco-maguey-bay-jpg-mosaic.webp'],
     '/food-culture/': ['data-approved-route-media=\'true\'', 'La Crucecita Oaxaca Mexico'],
-    '/itineraries/5-days-oaxaca-coast/': ['data-approved-route-media=\'true\'', 'Bahia San Agustin Huatulco camping'],
+    '/itineraries/5-days-oaxaca-coast/': ['data-approved-route-media=\'true\'', 'Bahia San Agustin Huatulco camping', '/images/photos/huatulco-bahia-san-agustin-huatulco-camping-webp.webp'],
     '/image-credits/': ['data-approved-image-credits=\'huatulco\'', 'Huatulco.jpg', 'CacalutaPlaya.JPG', 'La Crucecita Oaxaca Mexico.jpg'],
 }
 RESPONSIVE_REQUIREMENTS = {
@@ -46,8 +46,8 @@ RESPONSIVE_REQUIREMENTS = {
 LAUNCH_UTILITY_REQUIREMENTS = {
     '/': ['data-launch-decision-spine=\'true\'', 'data-launch-path-link=\'first-time\'', 'Which bay fits today?', 'Where do meals fit?', 'Open first-time guide →'],
     '/towns-cities/': ['data-hub-path-link=\'la-crucecita\'', 'href=\'/towns-cities/la-crucecita/\'', 'href=\'/towns-cities/puerto-angel/\''],
-    '/itineraries/': ['data-hub-path-link=\'3-days\'', 'href=\'/itineraries/4-days-relax-snorkel/\'', 'href=\'/itineraries/snorkel-boat-day/\''],
-    '/travel-guide/': ['data-hub-path-link=\'airport-arrival\'', 'href=\'/travel-guide/getting-around/\'', 'href=\'/travel-guide/packing-list/\''],
+    '/itineraries/': ['data-hub-child-cta=\'itinerary-depth\'', 'href=\'/itineraries/4-days-relax-snorkel/\'', 'href=\'/itineraries/snorkel-boat-day/\''],
+    '/travel-guide/': ['data-hub-child-cta=\'travel-guide-depth\'', 'href=\'/travel-guide/getting-around/\'', 'href=\'/travel-guide/packing-list/\''],
 }
 
 VISITOR_REFERENCE_REQUIREMENTS = {
@@ -57,17 +57,21 @@ VISITOR_REFERENCE_REQUIREMENTS = {
     '/towns-cities/copalita/': ['data-priority-guide-depth=\'visitor-reference\'', 'Bocana del Río Copalita', 'INAH', 'Mini route for a first visit'],
     '/towns-cities/mazunte/': ['data-priority-guide-depth=\'visitor-reference\'', 'Mexican Turtle Center', 'Punta Cometa', 'San Agustinillo'],
     '/towns-cities/puerto-angel/': ['data-priority-guide-depth=\'visitor-reference\'', 'working coastal town and fishing port', 'Zipolite', 'San Agustinillo'],
-    '/itineraries/': ['data-priority-guide-depth=\'visitor-reference\'', 'How to choose your plan', 'protects calm mornings', 'Snorkel + boat day'],
-    '/itineraries/4-days-relax-snorkel/': ['data-priority-guide-depth=\'visitor-reference\'', 'Base and pacing strategy', 'data-itinerary-day=\'4\'', 'Mercado 3 de Mayo'],
-    '/itineraries/snorkel-boat-day/': ['data-priority-guide-depth=\'visitor-reference\'', 'data-itinerary-day=\'4\'', 'Maguey/La Entrega', 'Santa Cruz'],
-    '/travel-guide/': ['data-priority-guide-depth=\'visitor-reference\'', 'Start with logistics, then pick beaches', 'Airport arrival', 'Getting around'],
-    '/travel-guide/airport-arrival/': ['data-priority-guide-depth=\'visitor-reference\'', 'authorized airport taxi/transport desk', 'Tangolunda, Chahué, Santa Cruz'],
-    '/travel-guide/getting-around/': ['data-priority-guide-depth=\'visitor-reference\'', 'Taxi for town/bay loops', 'boat for bay-hopping', 'rental for west along the Oaxaca coast day trips'],
-    '/travel-guide/best-time-to-visit/': ['data-priority-guide-depth=\'visitor-reference\'', 'Green-season travel', 'Holiday periods', 'calm morning'],
-    '/travel-guide/safety/': ['data-priority-guide-depth=\'visitor-reference\'', 'water, heat, transport', 'flags, swell', 'Remote beaches'],
-    '/travel-guide/first-time-visitors/': ['data-priority-guide-depth=\'visitor-reference\'', 'Tangolunda/resort comfort', 'La Crucecita food/errands', 'three anchors'],
-    '/travel-guide/money-tipping/': ['data-priority-guide-depth=\'visitor-reference\'', 'small bills', 'taxis, markets, tips', 'cards for larger restaurant/hotel charges'],
-    '/travel-guide/packing-list/': ['data-priority-guide-depth=\'visitor-reference\'', 'Reef-conscious sun protection', 'Dry bag', 'day kit'],
+    '/things-to-do/': ['data-section-depth-reset=\'true\'', 'Choose activities by the kind of day you want', 'A boat day depends on sea conditions'],
+    '/things-to-do/boat-tours/': ['data-section-depth-reset=\'true\'', 'Quick verdict', 'Choose it, skip it, or pair it correctly', 'How this usually fits into a real trip'],
+    '/things-to-do/snorkeling/': ['data-section-depth-reset=\'true\'', 'condition-dependent', 'Local options to check', 'Better backup idea'],
+    '/things-to-do/golf-tangolunda/': ['data-section-depth-reset=\'true\'', 'verify-before-booking', 'Las Parotas', 'Better backup idea'],
+    '/itineraries/': ['data-section-depth-reset=\'true\'', 'Choose the itinerary by how much movement your group wants', '3 nights', '5+ nights'],
+    '/itineraries/4-days-relax-snorkel/': ['data-section-depth-reset=\'true\'', 'data-itinerary-day=\'Day 4\'', 'Base, meals, and pacing rules', 'Mercado 3 de Mayo'],
+    '/itineraries/snorkel-boat-day/': ['data-section-depth-reset=\'true\'', 'data-itinerary-day=\'Day plan\'', 'Backup plan', 'Santa Cruz'],
+    '/travel-guide/': ['data-section-depth-reset=\'true\'', 'Solve the practical questions before you choose beaches', 'airport transfer', 'Getting around'],
+    '/travel-guide/airport-arrival/': ['data-section-depth-reset=\'true\'', 'Step-by-step', 'first-hour priorities', 'Same-week check'],
+    '/travel-guide/getting-around/': ['data-section-depth-reset=\'true\'', 'Decision rules that prevent friction', 'Short taxi hop', 'Rental car'],
+    '/travel-guide/best-time-to-visit/': ['data-section-depth-reset=\'true\'', 'Dry-season beach trip', 'Shoulder trip', 'Rainier/warmer period'],
+    '/travel-guide/safety/': ['data-section-depth-reset=\'true\'', 'Remote/scenic beaches', 'water conditions', 'return transport'],
+    '/travel-guide/first-time-visitors/': ['data-section-depth-reset=\'true\'', 'Choose a base', '3 nights', '5+ nights'],
+    '/travel-guide/money-tipping/': ['data-section-depth-reset=\'true\'', 'small bills', 'Markets/small food', 'taxis'],
+    '/travel-guide/packing-list/': ['data-section-depth-reset=\'true\'', 'Boat/snorkel day', 'Dry bag', 'town/culture kit'],
     '/food-culture/': ['data-priority-guide-depth=\'visitor-reference\'', 'data-food-directory=\'true\'', 'A better food plan for 3 to 5 days', 'Bay seafood palapas'],
 }
 
