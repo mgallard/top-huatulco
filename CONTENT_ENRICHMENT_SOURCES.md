@@ -111,3 +111,16 @@ This source map records the public sources used for the Huatulco bay and itinera
 - Use traveler-facing source labels such as “Check before you go,” not publisher/process labels.
 - Avoid false precision for taxi prices, fees, access rules, and operator inclusions.
 - Do not use the inherited El Salvador stock/media filenames as proof of Huatulco-specific imagery.
+
+## Visitor-reference depth pass — towns, itineraries, travel guide, food (2026-05-30)
+
+Purpose: respond to launch-blocking thin content in towns, itineraries, travel-guide, and food sections. Copy rules: visitor-facing decisions first; no hard-coded volatile prices/hours; visible source/live-check links where the visitor needs current details.
+
+Sources and usage notes:
+- https://en.visitahuatulco.mx/ — broad Huatulco/nine-bay destination context used for town, itinerary, and travel-guide route logic.
+- https://visitmexico.com/en/destino/2183/huatulco-oaxaca — official destination overview used for positioning and durable context.
+- https://www.huatulco-airport.com/ — airport/arrival/transport context; pages still tell visitors to verify current operators and transfer details.
+- https://www.inah.gob.mx/zonas/zona-arqueologica-bocana-del-rio-copalita — official Copalita archaeology context used for Copalita town/travel routing.
+- https://lugares.inah.gob.mx/es/node/4487 — INAH place record cross-check for Bocana del Río Copalita.
+- https://www.terracotta.com.mx/es/ — restaurant-specific source for Terra-Cotta references on food/La Crucecita pages.
+- Restaurant/operator social or official pages should be checked same-week before relying on hours, reservations, menus, or holiday service.

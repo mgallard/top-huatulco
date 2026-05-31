@@ -43,6 +43,26 @@ RESPONSIVE_REQUIREMENTS = {
         'md:block',
     ],
 }
+VISITOR_REFERENCE_REQUIREMENTS = {
+    '/towns-cities/': ['data-priority-guide-depth=\'visitor-reference\'', 'Choose by what you want to do', 'La Crucecita solves food and errands', 'Simple route logic'],
+    '/towns-cities/la-crucecita/': ['data-priority-guide-depth=\'visitor-reference\'', 'Terra-Cotta', 'Mercado 3 de Mayo', 'Mini route for a first visit'],
+    '/towns-cities/santa-cruz/': ['data-priority-guide-depth=\'visitor-reference\'', 'boat departures', 'La Crucecita for dinner', 'Mini route for a first visit'],
+    '/towns-cities/copalita/': ['data-priority-guide-depth=\'visitor-reference\'', 'Bocana del Río Copalita', 'INAH', 'Mini route for a first visit'],
+    '/towns-cities/mazunte/': ['data-priority-guide-depth=\'visitor-reference\'', 'Mexican Turtle Center', 'Punta Cometa', 'San Agustinillo'],
+    '/towns-cities/puerto-angel/': ['data-priority-guide-depth=\'visitor-reference\'', 'working coastal town and fishing port', 'Zipolite', 'San Agustinillo'],
+    '/itineraries/': ['data-priority-guide-depth=\'visitor-reference\'', 'How to choose your plan', 'protects calm mornings', 'Snorkel + boat day'],
+    '/itineraries/4-days-relax-snorkel/': ['data-priority-guide-depth=\'visitor-reference\'', 'Base and pacing strategy', 'data-itinerary-day=\'4\'', 'Mercado 3 de Mayo'],
+    '/itineraries/snorkel-boat-day/': ['data-priority-guide-depth=\'visitor-reference\'', 'data-itinerary-day=\'4\'', 'Maguey/La Entrega', 'Santa Cruz'],
+    '/travel-guide/': ['data-priority-guide-depth=\'visitor-reference\'', 'Start with logistics, then pick beaches', 'Airport arrival', 'Getting around'],
+    '/travel-guide/airport-arrival/': ['data-priority-guide-depth=\'visitor-reference\'', 'authorized airport taxi/transport desk', 'Tangolunda, Chahué, Santa Cruz'],
+    '/travel-guide/getting-around/': ['data-priority-guide-depth=\'visitor-reference\'', 'Taxi for town/bay loops', 'boat for bay-hopping', 'rental for west along the Oaxaca coast day trips'],
+    '/travel-guide/best-time-to-visit/': ['data-priority-guide-depth=\'visitor-reference\'', 'Green-season travel', 'Holiday periods', 'calm morning'],
+    '/travel-guide/safety/': ['data-priority-guide-depth=\'visitor-reference\'', 'water, heat, transport', 'flags, swell', 'Remote beaches'],
+    '/travel-guide/first-time-visitors/': ['data-priority-guide-depth=\'visitor-reference\'', 'Tangolunda/resort comfort', 'La Crucecita food/errands', 'three anchors'],
+    '/travel-guide/money-tipping/': ['data-priority-guide-depth=\'visitor-reference\'', 'small bills', 'taxis, markets, tips', 'cards for larger restaurant/hotel charges'],
+    '/travel-guide/packing-list/': ['data-priority-guide-depth=\'visitor-reference\'', 'Reef-conscious sun protection', 'Dry bag', 'day kit'],
+    '/food-culture/': ['data-priority-guide-depth=\'visitor-reference\'', 'data-food-directory=\'true\'', 'A better food plan for 3 to 5 days', 'Bay seafood palapas'],
+}
 
 class Parser(HTMLParser):
     def __init__(self):
@@ -100,6 +120,9 @@ for p in ROOT.rglob('index.html'):
     for marker in RESPONSIVE_REQUIREMENTS.get(rel, []):
         if marker not in txt:
             errors.append(f'{rel} missing responsive marker/content {marker}')
+    for marker in VISITOR_REFERENCE_REQUIREMENTS.get(rel, []):
+        if marker not in txt:
+            errors.append(f'{rel} missing visitor-reference marker/content {marker}')
     if '<table' in txt and 'data-responsive-table' not in txt:
         errors.append(f'{rel} has table without data-responsive-table wrapper')
     for href in parser.hrefs:
