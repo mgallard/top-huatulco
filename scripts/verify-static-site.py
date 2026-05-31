@@ -43,6 +43,13 @@ RESPONSIVE_REQUIREMENTS = {
         'md:block',
     ],
 }
+LAUNCH_UTILITY_REQUIREMENTS = {
+    '/': ['data-launch-decision-spine=\'true\'', 'data-launch-path-link=\'first-time\'', 'Which bay fits today?', 'Where do meals fit?', 'Open first-time guide →'],
+    '/towns-cities/': ['data-hub-path-link=\'la-crucecita\'', 'href=\'/towns-cities/la-crucecita/\'', 'href=\'/towns-cities/puerto-angel/\''],
+    '/itineraries/': ['data-hub-path-link=\'3-days\'', 'href=\'/itineraries/4-days-relax-snorkel/\'', 'href=\'/itineraries/snorkel-boat-day/\''],
+    '/travel-guide/': ['data-hub-path-link=\'airport-arrival\'', 'href=\'/travel-guide/getting-around/\'', 'href=\'/travel-guide/packing-list/\''],
+}
+
 VISITOR_REFERENCE_REQUIREMENTS = {
     '/towns-cities/': ['data-priority-guide-depth=\'visitor-reference\'', 'Choose by what you want to do', 'La Crucecita solves food and errands', 'Simple route logic'],
     '/towns-cities/la-crucecita/': ['data-priority-guide-depth=\'visitor-reference\'', 'Terra-Cotta', 'Mercado 3 de Mayo', 'Mini route for a first visit'],
@@ -123,6 +130,9 @@ for p in ROOT.rglob('index.html'):
     for marker in VISITOR_REFERENCE_REQUIREMENTS.get(rel, []):
         if marker not in txt:
             errors.append(f'{rel} missing visitor-reference marker/content {marker}')
+    for marker in LAUNCH_UTILITY_REQUIREMENTS.get(rel, []):
+        if marker not in txt:
+            errors.append(f'{rel} missing launch-utility marker/content {marker}')
     if '<table' in txt and 'data-responsive-table' not in txt:
         errors.append(f'{rel} has table without data-responsive-table wrapper')
     for href in parser.hrefs:
@@ -134,6 +144,26 @@ for p in ROOT.rglob('index.html'):
 
 if not (ROOT/'public/robots.txt').exists(): errors.append('Missing robots.txt')
 if not (ROOT/'public/sitemap.xml').exists(): errors.append('Missing sitemap.xml')
+if not (ROOT/'LAUNCH_GAP_AUDIT.md').exists(): errors.append('Missing launch gap audit')
+robots = (ROOT/'public/robots.txt').read_text(encoding='utf-8') if (ROOT/'public/robots.txt').exists() else ''
+if 'Disallow: /media-review/' not in robots: errors.append('robots.txt must disallow review-only media board')
+if 'Sitemap: https://tophuatulco.com/sitemap.xml' not in robots: errors.append('robots.txt missing sitemap directive')
+if (ROOT/'public/sitemap.xml').exists():
+    sitemap = (ROOT/'public/sitemap.xml').read_text(encoding='utf-8')
+    public_routes = []
+    for p in ROOT.rglob('index.html'):
+        if any(part in IGNORE or part in {'.git'} for part in p.parts):
+            continue
+        rel = '/' if p.parent == ROOT else '/' + str(p.parent.relative_to(ROOT)).strip('/') + '/'
+        if rel == '/media-review/':
+            continue
+        public_routes.append(rel)
+    for rel in public_routes:
+        loc = 'https://tophuatulco.com/' if rel == '/' else 'https://tophuatulco.com' + rel
+        if loc not in sitemap:
+            errors.append(f'sitemap.xml missing {loc}')
+    if 'https://tophuatulco.com/media-review/' in sitemap:
+        errors.append('sitemap.xml must not include review-only media board')
 
 if errors:
     print('\n'.join(errors))

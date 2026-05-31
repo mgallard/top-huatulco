@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+Disallow: /media-review/
 Sitemap: https://tophuatulco.com/sitemap.xml
