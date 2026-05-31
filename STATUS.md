@@ -3,7 +3,7 @@
 Working folder: /home/osohermes/projects/top-huatulco
 Live preview alias: https://top-huatulco.vercel.app
 GitHub backup: https://github.com/mgallard/top-huatulco
-Latest code commit: pending launch utility and internal-link trust pass
+Latest code commit: 8b4a4a9 Add Huatulco launch utility trust pass
 Vercel project: top-huatulco under mogensgallardo-8987s-projects; preview/staging alias only, no TopHuatulco.com DNS connected.
 
 Current state:
