@@ -3,7 +3,7 @@
 Working folder: /home/osohermes/projects/top-huatulco
 Live preview alias: https://top-huatulco.vercel.app
 GitHub backup: https://github.com/mgallard/top-huatulco
-Latest code commit: pending visitor-reference depth pass for towns, itineraries, travel guide, and food
+Latest code commit: ed9f379 Strengthen Huatulco visitor reference pages
 Vercel project: top-huatulco under mogensgallardo-8987s-projects; preview/staging alias only, no TopHuatulco.com DNS connected.
 
 Current state:
