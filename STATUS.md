@@ -3,7 +3,7 @@
 Working folder: /home/osohermes/projects/top-huatulco
 Live preview alias: https://top-huatulco.vercel.app
 GitHub backup: https://github.com/mgallard/top-huatulco
-Latest code commit: pending hard-media trust pass
+Latest code commit: ec4bb77 Resolve Copalita media trust gap
 Vercel project: top-huatulco under mogensgallardo-8987s-projects; preview/staging alias only, no TopHuatulco.com DNS connected.
 
 Current state:
