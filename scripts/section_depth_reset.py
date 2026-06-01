@@ -327,12 +327,13 @@ def render_activity(slug, d):
     entity_attrs = {
         'boat-tours': " data-entity-depth='boat-tours' data-approved-route-media='true'",
         'snorkeling': " data-entity-depth='snorkeling' data-approved-route-media='true'",
-        'copalita-archaeology': " data-entity-depth='copalita'",
+        'copalita-archaeology': " data-entity-depth='copalita' data-approved-route-media='true' data-copalita-viewpoint-media='true'",
         'la-crucecita-market': " data-entity-depth='la-crucecita-market'",
     }
     media = {
         'boat-tours': ("/images/photos/huatulco-maguey-bay-jpg-mosaic.webp", "Maguey Bay boat-day water near Huatulco"),
         'snorkeling': ("/images/photos/huatulco-playa-riscalillo-bah-as-de-huatulco-1-jpg-mosaic.webp", "Playa Riscalillo snorkeling-style coastline near Huatulco"),
+        'copalita-archaeology': ("/images/photos/huatulco-vista-de-la-playa-la-bocana-huatulco-jpg-things-to-do-copalita-archaeology.webp", "La Bocana beach viewed from a Copalita Eco-Archaeological Park lookout"),
     }
     media_html = ""
     if slug in media:

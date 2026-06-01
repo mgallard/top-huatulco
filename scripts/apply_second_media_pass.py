@@ -48,6 +48,18 @@ DIRECT_WINNERS = [
         "alt": "Wide view of Cacaluta beach in Huatulco National Park",
         "routeNote": "Route-specific Commons image; file description is Vista de la playa Cacaluta.",
     },
+    {
+        "id": "hard-gap-copalita-bocana-viewpoint-jpg",
+        "route": "/things-to-do/copalita-archaeology/",
+        "title": "Vista de la playa La Bocana, Huatulco.jpg",
+        "creator": "Suwanosejima",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "landing_page": "https://commons.wikimedia.org/wiki/File:Vista_de_la_playa_La_Bocana,_Huatulco.jpg",
+        "original_url": "https://upload.wikimedia.org/wikipedia/commons/2/2b/Vista_de_la_playa_La_Bocana%2C_Huatulco.jpg",
+        "alt": "La Bocana beach viewed from a Copalita Eco-Archaeological Park lookout",
+        "routeNote": "Source-checked Commons image taken from one of the Parque Eco-Arqueológico Copalita viewpoints; used as landscape/site-context media rather than a close-up ruins photo.",
+    },
 ]
 
 REVIEW_WINNERS = [
@@ -80,8 +92,7 @@ REVIEW_WINNERS = [
 UNFILLED_ROUTES = {
     "/destinations/organo/": "No confident open-license Órgano-specific image found. Do not substitute El Maguey unless labeled as adjacent context.",
     "/destinations/chachacual/": "No confident open-license Chachacual-specific image found in Commons/Openverse searches.",
-    "/destinations/conejos/": "No confident open-license Conejos-specific image found in Commons/Openverse searches.",
-    "/things-to-do/copalita-archaeology/": "No confident open-license Bocana del Río Copalita archaeological-site image found; keep as owned-photo priority.",
+    "/destinations/conejos/": "No confident open-license Conejos-specific image found in Commons/Openverse/Openverse-adjacent searches; Flickr hits found were All rights reserved and cannot be promoted.",
 }
 
 DESTINATION_IMAGE_NAMES = {
@@ -310,7 +321,7 @@ def write_report(assets: list[Asset]) -> None:
         "## Still unfilled / do not fake\n\n"
         f"{gaps}\n\n"
         "## Sourcing rule\n\n"
-        "Do not fill Órgano, Chachacual, Conejos, or Copalita archaeology with generic Huatulco scenery unless the page caption clearly states the image is adjacent/contextual. Prefer owned photos or a new review board for those routes before production DNS.\n"
+        "Do not fill Órgano, Chachacual, or Conejos with generic Huatulco scenery unless the page caption clearly states the image is adjacent/contextual. Prefer owned photos or a focused owner-review board for those routes before production DNS.\n"
     )
 
 

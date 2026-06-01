@@ -3,7 +3,7 @@
 Working folder: /home/osohermes/projects/top-huatulco
 Live preview alias: https://top-huatulco.vercel.app
 GitHub backup: https://github.com/mgallard/top-huatulco
-Latest code commit: bd9ab1c Add Huatulco sitewide guide structure
+Latest code commit: pending hard-media trust pass
 Vercel project: top-huatulco under mogensgallardo-8987s-projects; preview/staging alias only, no TopHuatulco.com DNS connected.
 
 Current state:
@@ -17,6 +17,7 @@ Current state:
 - Completed non-photo launch utility/trust pass: generated sitemap/robots coverage for 46 public routes, excluded `/media-review/` from sitemap and disallowed it in robots, added a homepage four-question planning spine, added visible hub-child CTAs for towns/itineraries/travel-guide, and documented remaining non-photo launch gaps in `LAUNCH_GAP_AUDIT.md`.
 - Completed section-depth reset for the weak Things to do, Itineraries, and Travel guide sections: rebuilt one model page for each section (`/things-to-do/boat-tours/`, `/itineraries/4-days-relax-snorkel/`, `/travel-guide/getting-around/`) and scaled the subject-led structure across 22 pages with quick verdicts, choose/avoid logic, day-by-day planning, backup rules, practical logistics, local options, source/live-check links, responsive tables, and `SECTION_DEPTH_RESET_AUDIT.md`.
 - Completed sitewide content-structure pass: every public tourism guide route now carries the subject-led tourism-guide contract, hubs and town/tour/food pages expose visible On-this-page nav plus quick verdict / choose-avoid / backup decision modules, itinerary detail pages have explicit quick-verdict cards, and `SITEWIDE_CONTENT_STRUCTURE_AUDIT.md` documents the route-class standard.
+- Completed hard-media trust pass for the last unresolved practical page: promoted source-checked Commons media for `/things-to-do/copalita-archaeology/` with an honest La Bocana/Copalita viewpoint caption, expanded approved image credits/manifest to 17 local WebP derivatives, and documented the remaining Órgano, Chachacual, and Conejos blockers in `MEDIA_HARD_GAPS_REVIEW.md` plus noindex `/media-review/hard-gaps/`.
 - Deterministic scripts now include `scripts/entity_depth_pass.py`, `scripts/apply_second_media_pass.py`, `scripts/visitor_reference_depth_pass.py`, `scripts/launch_utility_trust_pass.py`, `scripts/section_depth_reset.py`, and `scripts/sitewide_content_structure_pass.py`. Regression coverage asserts entity-depth, approved-media, responsive table/mobile-card, visitor-reference depth, section-depth reset, launch-utility, sitewide subject-led structure, sitemap, robots, and audit markers in `scripts/verify-static-site.py`.
 
 Verification passed:
@@ -25,15 +26,15 @@ Verification passed:
 - `npm run lint`
 - `npm run audit:tourism`
 - `npm run build`
-- Asset manifest verification: all 16 local WebP derivatives exist with matching dimensions.
-- Remote marker checks passed on towns hub, La Crucecita, 4-day itinerary, snorkel/boat itinerary, getting-around guide, food/culture, Chahué, Cacaluta, snorkeling, boat tours, 5-day itinerary, image credits, homepage launch spine, hub-child CTAs, sitemap, robots, `/destinations/` responsive markers, section-depth reset markers on Things to do / Itineraries / Travel guide hubs and model pages, and sitewide structure markers on `/destinations/`, `/things-to-do/`, `/tours/`, `/towns-cities/la-crucecita/`, `/itineraries/4-days-relax-snorkel/`, and `/travel-guide/`.
+- Asset manifest verification: all 17 local WebP derivatives exist with matching source records.
+- Remote marker checks passed on towns hub, La Crucecita, 4-day itinerary, snorkel/boat itinerary, getting-around guide, food/culture, Chahué, Cacaluta, snorkeling, boat tours, 5-day itinerary, Copalita archaeology media, image credits, hard-gaps review board, homepage launch spine, hub-child CTAs, sitemap, robots, `/destinations/` responsive markers, section-depth reset markers on Things to do / Itineraries / Travel guide hubs and model pages, and sitewide structure markers on `/destinations/`, `/things-to-do/`, `/tours/`, `/towns-cities/la-crucecita/`, `/itineraries/4-days-relax-snorkel/`, and `/travel-guide/`.
 - Simulated 390px mobile QA passed on homepage, towns hub, itineraries hub, travel-guide hub, 4-day itinerary, getting-around guide, food/culture, `/destinations/`, the three rebuilt model pages, and sitewide-structure representatives (`/destinations/`, `/things-to-do/`, `/tours/`, `/towns-cities/la-crucecita/`, `/itineraries/4-days-relax-snorkel/`, `/travel-guide/`): no document horizontal overflow.
-- Browser visual QA passed for the deployed homepage launch spine, upgraded towns hub, rebuilt Things to do model page, expanded 4-day itinerary, food/culture page, Chahué, Cacaluta, image credits, deployed `/destinations/` mobile card view, and the new sitewide Bays structure module after spacing correction. Food/culture image URL/dimensions verified live; homepage mosaic images also report complete natural dimensions live.
+- Browser visual QA passed for the deployed homepage launch spine, upgraded towns hub, rebuilt Things to do model page, expanded 4-day itinerary, food/culture page, Chahué, Cacaluta, image credits, deployed `/destinations/` mobile card view, Copalita archaeology context image/caption, and the new sitewide Bays structure module after spacing correction. Food/culture image URL/dimensions verified live; homepage mosaic images also report complete natural dimensions live.
 - Vercel deployment aliased to https://top-huatulco.vercel.app.
 
 Known blockers / next actions:
 1. Production DNS remains gated. Do not connect TopHuatulco.com until Mogens explicitly approves after content/media review.
-2. Remaining hard media gaps: `/destinations/organo/`, `/destinations/chachacual/`, `/destinations/conejos/`, and `/things-to-do/copalita-archaeology/` still need owned photos or a new reviewed candidate board. These were intentionally not filled with generic scenery.
+2. Remaining hard media gaps: `/destinations/organo/`, `/destinations/chachacual/`, and `/destinations/conejos/` still need owned photos or explicit owner approval for adjacent-context media. `/things-to-do/copalita-archaeology/` now has approved context media. Do not fill remaining gaps with generic scenery; see `MEDIA_HARD_GAPS_REVIEW.md` and `/media-review/hard-gaps/`.
 3. Kanban DB currently errors with `no such column: claim_lock`; use COMMAND_CENTER.md and this status file as fallback until Kanban is repaired.
 
 Resume command:

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-30T21:15:29Z",
+  "updatedAt": "2026-06-01T01:45:23Z",
   "reviewExport": "/home/osohermes/.hermes/projects/tophuatulco/top-huatulco-media-review-2026-05-30.json",
   "secondPassReport": "/home/osohermes/projects/top-huatulco/MEDIA_SECOND_PASS.md",
   "reviewTotals": {
@@ -262,6 +262,23 @@
       "derivative": "Resized WebP derivative from original source",
       "routeNote": "Approved first-pass western-bay image used for the 5-day Oaxaca coast itinerary context.",
       "licenseUrl": null
+    },
+    {
+      "id": "hard-gap-copalita-bocana-viewpoint-jpg",
+      "route": "/things-to-do/copalita-archaeology/",
+      "title": "Vista de la playa La Bocana, Huatulco.jpg",
+      "creator": "Suwanosejima",
+      "license": "CC BY-SA 4.0",
+      "landing_page": "https://commons.wikimedia.org/wiki/File:Vista_de_la_playa_La_Bocana,_Huatulco.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/2/2b/Vista_de_la_playa_La_Bocana%2C_Huatulco.jpg",
+      "site_path": "/images/photos/huatulco-vista-de-la-playa-la-bocana-huatulco-jpg-things-to-do-copalita-archaeology.webp",
+      "alt": "La Bocana beach viewed from a Copalita Eco-Archaeological Park lookout",
+      "width": 1800,
+      "height": 1013,
+      "sourceType": "open-license second-pass source checked",
+      "derivative": "Resized WebP derivative from original source",
+      "routeNote": "Source-checked Commons image taken from one of the Parque Eco-Arqueológico Copalita viewpoints; used as landscape/site-context media rather than a close-up ruins photo.",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
     }
   ]
 }

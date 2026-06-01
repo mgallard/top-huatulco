@@ -31,7 +31,8 @@ MEDIA_REQUIREMENTS = {
     '/things-to-do/boat-tours/': ['data-approved-route-media=\'true\'', 'Maguey Bay', '/images/photos/huatulco-maguey-bay-jpg-mosaic.webp'],
     '/food-culture/': ['data-approved-route-media=\'true\'', 'La Crucecita Oaxaca Mexico'],
     '/itineraries/5-days-oaxaca-coast/': ['data-approved-route-media=\'true\'', 'Bahia San Agustin Huatulco camping', '/images/photos/huatulco-bahia-san-agustin-huatulco-camping-webp.webp'],
-    '/image-credits/': ['data-approved-image-credits=\'huatulco\'', 'Huatulco.jpg', 'CacalutaPlaya.JPG', 'La Crucecita Oaxaca Mexico.jpg'],
+    '/things-to-do/copalita-archaeology/': ['data-approved-route-media=\'true\'', 'data-copalita-viewpoint-media=\'true\'', 'La Bocana beach viewed from a Copalita Eco-Archaeological Park lookout', '/images/photos/huatulco-vista-de-la-playa-la-bocana-huatulco-jpg-things-to-do-copalita-archaeology.webp'],
+    '/image-credits/': ['data-approved-image-credits=\'huatulco\'', 'Huatulco.jpg', 'CacalutaPlaya.JPG', 'La Crucecita Oaxaca Mexico.jpg', 'Vista de la playa La Bocana, Huatulco.jpg'],
 }
 RESPONSIVE_REQUIREMENTS = {
     '/destinations/': [
@@ -120,7 +121,7 @@ for route in REQUIRED_ROUTES:
         errors.append(f'Missing required route {route}')
 
 for p in ROOT.rglob('index.html'):
-    if any(part in IGNORE for part in p.parts):
+    if any(part in IGNORE for part in p.parts) or 'media-review' in p.parts:
         continue
     txt=p.read_text(encoding='utf-8', errors='ignore')
     rel='/' if p.name=='index.html' and p.parent==ROOT else '/' + str(p.parent.relative_to(ROOT)).strip('/') + '/'
@@ -183,7 +184,7 @@ if (ROOT/'public/sitemap.xml').exists():
         if any(part in IGNORE or part in {'.git'} for part in p.parts):
             continue
         rel = '/' if p.parent == ROOT else '/' + str(p.parent.relative_to(ROOT)).strip('/') + '/'
-        if rel == '/media-review/':
+        if rel.startswith('/media-review/'):
             continue
         public_routes.append(rel)
     for rel in public_routes:
